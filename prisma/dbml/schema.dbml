@@ -1,0 +1,136 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Siswa {
+  id String [pk]
+  email String [unique, not null]
+  name String [not null]
+  gender Gender [not null]
+  password String
+  register Register [not null]
+  rombel RombelSiswa [not null]
+}
+
+Table Guru {
+  id String [pk]
+  email String [unique, not null]
+  name String [not null]
+  akses AksesGuru [not null]
+  password String
+  rombel Rombel [not null]
+  register DetailRegister [not null]
+}
+
+Table Kelas {
+  id String [pk]
+  nama_kelas String [not null]
+  tingkat TingkatKelas [not null]
+  rombel Rombel [not null]
+}
+
+Table Semester {
+  id String [pk]
+  tahun_ajaran String [not null]
+  semester SemesterType [not null]
+  tgl_awal DateTime [not null]
+  tgl_akhir DateTime [not null]
+  rombel Rombel [not null]
+}
+
+Table Rombel {
+  id String [pk]
+  kelas Kelas [not null]
+  kelas_id String [not null]
+  semester Semester [not null]
+  semester_id String [not null]
+  guru Guru [not null]
+  guru_id String [not null]
+  siswa RombelSiswa [not null]
+}
+
+Table Register {
+  id String [pk]
+  siswa Siswa [not null]
+  siswa_id String [not null]
+  tgl_periksa DateTime [not null]
+  detail_register DetailRegister
+}
+
+Table DetailRegister {
+  id String [pk]
+  register Register [not null]
+  register_id String [unique, not null]
+  hasil_periksa String [not null]
+  analisa String [not null]
+  tindakan String [not null]
+  evaluasi String [not null]
+  lanjutan TindakanLanjutan [not null]
+  guru Guru [not null]
+  guru_id String [not null]
+  rujukan Rujukan
+}
+
+Table Rujukan {
+  id String [pk]
+  detail_register DetailRegister [not null]
+  detail_register_id String [unique, not null]
+  analisa_dokter String [not null]
+  nama_dokter String [not null]
+}
+
+Table RombelSiswa {
+  rombel Rombel [not null]
+  rombel_id String [not null]
+  siswa Siswa [not null]
+  siswa_id String [not null]
+
+  indexes {
+    (rombel_id, siswa_id) [pk]
+  }
+}
+
+Enum Gender {
+  L
+  P
+}
+
+Enum AksesGuru {
+  ADMIN
+  WALAS
+}
+
+Enum TingkatKelas {
+  X
+  XI
+  XII
+}
+
+Enum SemesterType {
+  GANJIL
+  GENAP
+}
+
+Enum TindakanLanjutan {
+  mengikuti_kbm
+  rujukan
+  pulang
+}
+
+Ref: Rombel.kelas_id > Kelas.id
+
+Ref: Rombel.semester_id > Semester.id
+
+Ref: Rombel.guru_id > Guru.id
+
+Ref: Register.siswa_id > Siswa.id
+
+Ref: DetailRegister.register_id - Register.id
+
+Ref: DetailRegister.guru_id > Guru.id
+
+Ref: Rujukan.detail_register_id - DetailRegister.id
+
+Ref: RombelSiswa.rombel_id > Rombel.id
+
+Ref: RombelSiswa.siswa_id > Siswa.id
