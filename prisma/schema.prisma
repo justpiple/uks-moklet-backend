@@ -15,9 +15,10 @@ datasource db {
 }
 
 enum Gender {
-  L 
+  L
   P
 }
+
 enum AksesGuru {
   ADMIN
   WALAS
@@ -28,6 +29,7 @@ enum TingkatKelas {
   XI
   XII
 }
+
 enum SemesterType {
   GANJIL
   GENAP
@@ -40,88 +42,87 @@ enum TindakanLanjutan {
 }
 
 model Siswa {
-  id            String        @id @db.Char(36) @map("siswa_id")
-  email         String        @unique
-  name          String
-  gender        Gender
-  password      String?       @db.Char(32)
-  register      Register[]      
-  rombel        RombelSiswa[]
+  id       Int           @id @default(autoincrement()) @map("siswa_id")
+  email    String        @unique
+  name     String
+  gender   Gender
+  password String?       @db.Char(32)
+  register Register[]
+  rombel   RombelSiswa[]
 }
 
 model Guru {
-  id            String        @id @db.Char(36) @map("guru_id")
-  email         String        @unique
-  name          String
-  akses         AksesGuru
-  password      String?       @db.Char(32)      
-  rombel        Rombel[]
-  register      DetailRegister[]
+  id       String           @id @map("guru_id") @db.Char(36)
+  email    String           @unique
+  name     String
+  akses    AksesGuru
+  password String?          @db.Char(32)
+  rombel   Rombel[]
+  register DetailRegister[]
 }
 
 model Kelas {
-  id            String        @id @db.Char(6) @map("kelas_id")
-  nama_kelas    String
-  tingkat       TingkatKelas
-  rombel        Rombel[]
+  id         String       @id @map("kelas_id") @db.Char(6)
+  nama_kelas String
+  tingkat    TingkatKelas
+  rombel     Rombel[]
 }
 
 model Semester {
-  id            String        @id @db.Char(11) @map("semester_id")
-  tahun_ajaran  String
-  semester      SemesterType
-  tgl_awal      DateTime      @db.Date
-  tgl_akhir     DateTime      @db.Date 
-  rombel        Rombel[]
+  id           String       @id @map("semester_id") @db.Char(11)
+  tahun_ajaran String
+  semester     SemesterType
+  tgl_awal     DateTime     @db.Date
+  tgl_akhir    DateTime     @db.Date
+  rombel       Rombel[]
 }
 
-model Rombel{
-  id            String        @id @db.Char(11) @map("rombel_id")
-  kelas         Kelas         @relation(fields: [kelas_id], references: [id])
-  kelas_id      String        @db.Char(6)
-  semester      Semester      @relation(fields: [semester_id], references: [id])
-  semester_id   String        @db.Char(11)
-  guru          Guru          @relation(fields: [guru_id], references: [id])
-  guru_id       String        @db.Char(36)
-  siswa         RombelSiswa[]
+model Rombel {
+  id          String        @id @map("rombel_id") @db.Char(11)
+  kelas       Kelas         @relation(fields: [kelas_id], references: [id])
+  kelas_id    String        @db.Char(6)
+  semester    Semester      @relation(fields: [semester_id], references: [id])
+  semester_id String        @db.Char(11)
+  guru        Guru          @relation(fields: [guru_id], references: [id])
+  guru_id     String        @db.Char(36)
+  siswa       RombelSiswa[]
 }
-
 
 model Register {
-  id              String        @id @db.Char(36) @map("register_id")
-  siswa           Siswa         @relation(fields: [siswa_id], references: [id])
-  siswa_id        String        @db.Char(36)
-  tgl_periksa     DateTime      @db.Date
+  id              String          @id @map("register_id") @db.Char(36)
+  siswa           Siswa           @relation(fields: [siswa_id], references: [id])
+  siswa_id        Int
+  tgl_periksa     DateTime        @db.Date
   detail_register DetailRegister?
 }
 
 model DetailRegister {
-  id            String        @id @db.Char(36) @map("detail_register_id")
-  register      Register      @relation(fields: [register_id], references: [id])
-  register_id   String        @unique @db.Char(36)
-  hasil_periksa String        @db.LongText
-  analisa       String        @db.LongText
-  tindakan      String        @db.LongText
-  evaluasi      String        @db.LongText
+  id            String           @id @map("detail_register_id") @db.Char(36)
+  register      Register         @relation(fields: [register_id], references: [id])
+  register_id   String           @unique @db.Char(36)
+  hasil_periksa String           @db.LongText
+  analisa       String           @db.LongText
+  tindakan      String           @db.LongText
+  evaluasi      String           @db.LongText
   lanjutan      TindakanLanjutan
-  guru          Guru          @relation(fields: [guru_id], references: [id])
-  guru_id       String        @db.Char(36)
+  guru          Guru             @relation(fields: [guru_id], references: [id])
+  guru_id       String           @db.Char(36)
   rujukan       Rujukan?
 }
 
-model Rujukan{
-  id                  String          @id @db.Char(36) @map("rujukan_id")
-  detail_register     DetailRegister  @relation(fields: [detail_register_id], references: [id])
-  detail_register_id  String          @db.Char(36) @unique
-  analisa_dokter      String          @db.LongText
-  nama_dokter         String          @db.VarChar(255)
+model Rujukan {
+  id                 String         @id @map("rujukan_id") @db.Char(36)
+  detail_register    DetailRegister @relation(fields: [detail_register_id], references: [id])
+  detail_register_id String         @unique @db.Char(36)
+  analisa_dokter     String         @db.LongText
+  nama_dokter        String         @db.VarChar(255)
 }
 
 model RombelSiswa {
-  rombel              Rombel        @relation(fields: [rombel_id], references: [id])
-  rombel_id           String        @db.Char(11)
-  siswa               Siswa         @relation(fields: [siswa_id], references: [id])
-  siswa_id            String        @db.Char(36)
+  rombel    Rombel @relation(fields: [rombel_id], references: [id])
+  rombel_id String @db.Char(11)
+  siswa     Siswa  @relation(fields: [siswa_id], references: [id])
+  siswa_id  Int
 
   @@id([rombel_id, siswa_id])
 }

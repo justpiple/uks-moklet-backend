@@ -3,7 +3,7 @@
 //// ------------------------------------------------------
 
 Table Siswa {
-  id String [pk]
+  id Int [pk, increment]
   email String [unique, not null]
   name String [not null]
   gender Gender [not null]
@@ -52,7 +52,7 @@ Table Rombel {
 Table Register {
   id String [pk]
   siswa Siswa [not null]
-  siswa_id String [not null]
+  siswa_id Int [not null]
   tgl_periksa DateTime [not null]
   detail_register DetailRegister
 }
@@ -83,7 +83,7 @@ Table RombelSiswa {
   rombel Rombel [not null]
   rombel_id String [not null]
   siswa Siswa [not null]
-  siswa_id String [not null]
+  siswa_id Int [not null]
 
   indexes {
     (rombel_id, siswa_id) [pk]
