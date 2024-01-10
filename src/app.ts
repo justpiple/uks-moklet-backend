@@ -1,0 +1,50 @@
+import { Prisma, PrismaClient } from "@prisma/client";
+import express from "express";
+import fs from "fs";
+import chalk from "chalk";
+
+const prisma = new PrismaClient();
+const app = express();
+
+app.use(express.json());
+app.use(express.static("public"));
+
+const rootRoute: string[] = fs.readdirSync("./src/routes");
+rootRoute
+  .filter((file: string) => {
+    return (
+      /.(js|ts)$/.test(file) ||
+      fs.lstatSync(__dirname + "/routes/" + file).isDirectory()
+    );
+  })
+  .forEach((file: string) => {
+    file = file.replace(/\.[^.]*$/, "");
+    try {
+      const route = require(__dirname + "/routes/" + file).default;
+
+      //import router handler
+      app.use("/" + file, route);
+
+      console.log(
+        chalk.blue("[ INFO ] ") + "Route '" + file + "' imported successfully."
+      );
+    } catch (e) {
+      console.log(
+        chalk.blue("[ INFO ] ") +
+          "Skipped '" +
+          file +
+          "' module because containing error."
+      );
+    }
+  });
+
+app.use((req, res) => {
+  res.json({
+    status: 404,
+    message: "error_not_found",
+  });
+});
+
+const server = app.listen(3000, () =>
+  console.log(`🚀 Server ready at: http://localhost:3000`)
+);
