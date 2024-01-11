@@ -2,11 +2,17 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import express from "express";
 import fs from "fs";
 import chalk from "chalk";
+import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
 
 const prisma = new PrismaClient();
 const app = express();
 
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use(cookieParser());
+
 app.use(express.static("public"));
 
 const rootRoute: string[] = fs.readdirSync("./src/routes");
