@@ -1,15 +1,10 @@
 {
-  "name": "backend-uks-moklet",
+  "name": "backend",
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-<<<<<<< HEAD
-    "dev": "ts-node src/index.ts",
-    "start": "ts-node src/index"
-=======
     "dev": "nodemon src/app.ts",
     "start": "tsc && node src/app.js"
->>>>>>> e3dc5765f96db35565e5eba14d04ef1e9f702eab
   },
   "dependencies": {
     "@prisma/client": "5.7.1",
