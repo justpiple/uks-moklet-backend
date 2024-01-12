@@ -10,8 +10,8 @@ export function InternalServerError() {
   return { message: "Internal server error", status: 500, success: false };
 }
 
-export function Forbidden(message: string, error?: object) {
-  return { message, status: 403, success: false, error };
+export function Forbidden(message: string) {
+  return { message, status: 403, success: false };
 }
 
 export function Unauthorize(message: string) {
