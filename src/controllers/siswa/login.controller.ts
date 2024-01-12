@@ -25,7 +25,7 @@ export const Login = async (req: LoginReqProps, res: Response) => {
 
     const id_siswa = user?.id;
     const email = user?.email;
-    const name = user?.email;
+    const name = user?.name;
 
     // Membuat refresh token
     const token = jwt.sign(

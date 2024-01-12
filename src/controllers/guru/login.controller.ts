@@ -1,5 +1,5 @@
 import md5 from "md5";
-import { findAdminByEmail } from "@/utils/queries/admin.query";
+import { findAdminByEmail } from "@/utils/queries/guru.query";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
@@ -25,11 +25,11 @@ export const Login = async (req: LoginReqProps, res: Response) => {
 
     const id_admin = user?.id;
     const email = user?.email;
-    const name = user?.email;
+    const name = user?.name;
 
     // Membuat refresh token
     const token = jwt.sign(
-      { id: id_admin, name, email, role: "ADMIN" },
+      { id: id_admin, name, email, role: "GURU" },
       process.env.JWT_SECRET,
       {
         expiresIn: "15d",
