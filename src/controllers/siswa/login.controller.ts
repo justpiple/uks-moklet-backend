@@ -2,6 +2,7 @@ import md5 from "md5";
 import { findSiswaByEmail } from "@/utils/queries/siswa.query";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import { Unauthorize } from "@/utils/apiResponse";
 
 interface LoginReqProps extends Request {
   body: {
@@ -20,7 +21,7 @@ export const Login = async (req: LoginReqProps, res: Response) => {
 
     //Jika password dan confirm password tidak cocok
     if (!match) {
-      return res.status(400).json({ msg: "Email atau Password Salah!" });
+      return res.status(400).json(Unauthorize("Email atau Password salah!"));
     }
 
     const id_siswa = user?.id;
@@ -39,7 +40,7 @@ export const Login = async (req: LoginReqProps, res: Response) => {
     // Membuat http cookie yang dikirimkan ke sisi client
     res.cookie("token", token, {
       httpOnly: true,
-      maxAge: 15 * 24 * 60 * 60 * 1000, //expired dalam 1 hari
+      maxAge: 15 * 24 * 60 * 60 * 1000, //expired dalam 15 hari
     });
     res.json({ status: 200, token });
   } catch (error) {

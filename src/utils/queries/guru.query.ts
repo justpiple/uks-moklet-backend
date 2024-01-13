@@ -1,26 +1,26 @@
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
-export async function findAdminByEmail(email: string) {
+export async function findGuruByEmail(email: string) {
   const user = await prisma.guru.findUnique({
     where: { email },
   });
   return user;
 }
 
-export async function findAdminById(id: string) {
+export async function findGuruById(id: string) {
   const user = await prisma.guru.findUnique({
     where: { id: id },
   });
   return user;
 }
 
-export async function createAdmin(data: Prisma.GuruCreateInput) {
+export async function createGuru(data: Prisma.GuruCreateInput) {
   const create = await prisma.guru.create({ data });
   return create;
 }
 
-export async function updateAdmin(id: string, data: Prisma.GuruUpdateInput) {
+export async function updateGuru(id: string, data: Prisma.GuruUpdateInput) {
   const update = await prisma.guru.update({
     where: { id },
     data,
@@ -28,7 +28,7 @@ export async function updateAdmin(id: string, data: Prisma.GuruUpdateInput) {
   return update;
 }
 
-export async function deleteAdmin(id: string) {
+export async function deleteGuru(id: string) {
   const deleteUser = await prisma.guru.delete({
     where: { id },
   });
