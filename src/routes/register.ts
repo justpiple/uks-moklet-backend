@@ -1,6 +1,9 @@
 import {
   AddRegister,
+  DeleteRegister,
   FindRegister,
+  SiswaFindRegister,
+  UpdateRegister,
 } from "@/controllers/register/register.controller";
 import { validateError } from "@/middleware/validateError";
 import { Router } from "express";
@@ -9,15 +12,18 @@ import { check } from "express-validator";
 
 const router = Router();
 
-var findRegisterValidate = [
+var idRegisterValidate = [
   check("id", "id is required").notEmpty(),
   validateError,
 ];
-var addRegisterValidate = [
+var postRegisterValidate = [
   check("tgl_periksa", "tanggal periksa is required").notEmpty(),
   validateError,
 ];
-router.get("/find", findRegisterValidate, FindRegister);
-router.post("/add", addRegisterValidate, AddRegister);
+router.get("/find", idRegisterValidate, FindRegister);
+router.get("/find/:id", idRegisterValidate, SiswaFindRegister);
+router.post("/create", postRegisterValidate, AddRegister);
+router.put("/update/:id", postRegisterValidate, UpdateRegister);
+router.delete("/delete/:id", idRegisterValidate, DeleteRegister);
 
 export default router;

@@ -2,7 +2,9 @@ import {
   findRegisterById,
   createRegister,
   updateRegister,
-} from "@/utils/queries/register.query";
+  findRegisterByIdSiswa,
+  deleteRegister,
+} from "@/utils/queries/register/register.query";
 import { Request, Response } from "express";
 import {
   BadRequest,
@@ -22,7 +24,7 @@ interface GetRegisterReqProps extends Request {
 
 interface PostRegisterReqProps extends Request {
   body: {
-    tgl_periksa: string;
+    tgl_periksa: Date;
   };
 }
 
@@ -43,7 +45,7 @@ export const SiswaFindRegister = async (
   req: GetRegisterReqProps,
   res: Response
 ) => {
-  const register: any = await findRegisterById(req.body.id);
+  const register: any = await findRegisterByIdSiswa(req.body.id);
   if (register.length === 0) {
     return res.status(400).json(BadRequest("Cannot find any siswa register"));
   }
@@ -83,7 +85,6 @@ export const UpdateRegister = async (
   res: Response
 ) => {
   const data: any = {
-    id: uuidv7(),
     tgl_periksa: req.body.tgl_periksa,
   };
 
@@ -95,5 +96,16 @@ export const UpdateRegister = async (
 
   return res
     .status(200)
-    .json(CreatedSuccessfully("Register updated successfully", register));
+    .json(Success("Register updated successfully", register));
+};
+
+export const DeleteRegister = async (req: Request, res: Response) => {
+  const register = await deleteRegister(req.params.id);
+  if (!register) {
+    return res.status(400).json(BadRequest("Cannot find any register"));
+  }
+
+  return res
+    .status(200)
+    .json(Success("Register deleted successfully", register));
 };
