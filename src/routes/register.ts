@@ -1,4 +1,7 @@
-import { GetRegisterById } from "@/controllers/register/register.controller";
+import {
+  AddRegister,
+  FindRegister,
+} from "@/controllers/register/register.controller";
 import { validateError } from "@/middleware/validateError";
 import { Router } from "express";
 import type { Request, Response } from "express";
@@ -6,10 +9,15 @@ import { check } from "express-validator";
 
 const router = Router();
 
-var registerValidate = [
-  check("id", "Id is required").notEmpty(),
+var findRegisterValidate = [
+  check("id", "id is required").notEmpty(),
   validateError,
 ];
-router.get("/getbyid", registerValidate, GetRegisterById);
+var addRegisterValidate = [
+  check("tgl_periksa", "tanggal periksa is required").notEmpty(),
+  validateError,
+];
+router.get("/find", findRegisterValidate, FindRegister);
+router.post("/add", addRegisterValidate, AddRegister);
 
 export default router;
