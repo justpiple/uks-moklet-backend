@@ -1,18 +1,6 @@
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
-export async function findDetailRegisterById(id: string) {
-  const register = await prisma.detailRegister.findMany({ where: { id } });
-  return register;
-}
-
-export async function findDetailRegisterByRegisterId(id: string) {
-  const register = await prisma.detailRegister.findFirst({
-    where: { register_id: id },
-  });
-  return register;
-}
-
 export async function createDetailRegister(data: Prisma.DetailRegisterCreateInput) {
   const create = await prisma.detailRegister.create({ data });
   return create;
