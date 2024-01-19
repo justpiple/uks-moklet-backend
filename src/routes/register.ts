@@ -21,9 +21,9 @@ var postRegisterValidate = [
   validateError,
 ];
 router.get("/find", idRegisterValidate, FindRegister);
-router.get("/find/:id", idRegisterValidate, SiswaFindRegister);
+router.get("/siswa/find", idRegisterValidate, SiswaFindRegister);
 router.post("/create", postRegisterValidate, AddRegister);
-router.put("/update/:id", postRegisterValidate, UpdateRegister);
-router.delete("/delete/:id", idRegisterValidate, DeleteRegister);
+router.put("/update", postRegisterValidate, UpdateRegister);
+router.delete("/delete", idRegisterValidate, DeleteRegister);
 
 export default router;
