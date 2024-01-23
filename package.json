@@ -19,6 +19,7 @@
     "md5": "^2.3.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
+    "uuidv7": "^0.6.3"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.6",
