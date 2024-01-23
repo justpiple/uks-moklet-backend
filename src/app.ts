@@ -4,6 +4,9 @@ import fs from "fs";
 import chalk from "chalk";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
+import options from "./utils/swaggerOption";
 
 const prisma = new PrismaClient();
 const app = express();
@@ -44,6 +47,8 @@ rootRoute
     }
   });
 
+const specs = swaggerJSDoc(options);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use((req, res) => {
   res.json({
     status: 404,
