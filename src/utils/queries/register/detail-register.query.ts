@@ -9,7 +9,7 @@ export async function createDetailRegister(
 }
 
 export async function updateDetailRegister(
-  id: string,
+  id: string, 
   data: Prisma.DetailRegisterUpdateInput
 ) {
   const update = await prisma.detailRegister.update({
