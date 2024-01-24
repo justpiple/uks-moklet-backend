@@ -15,23 +15,26 @@ import {
 
 import jwt from "jsonwebtoken";
 import { uuidv7 } from "uuidv7";
+import { registerWithDetail } from "@/types/prismaRelation";
+import { Token } from "@/types/middleware";
+import { Prisma } from "@prisma/client";
 
 interface GetRegisterReqProps extends Request {
-  body: {
+  params: {
     id: string;
   };
 }
 
 interface PostRegisterReqProps extends Request {
-  body: {
-    tgl_periksa: Date;
-  };
+  body: Prisma.RegisterUncheckedCreateInput;
 }
 
 // find register by register id
 export const FindRegister = async (req: GetRegisterReqProps, res: Response) => {
-  const register: any = await findRegisterById(req.body.id);
-  if (register.length === 0) {
+  const register: registerWithDetail | null = await findRegisterById(
+    req.params.id
+  );
+  if (register == null) {
     return res.status(400).json(BadRequest("Cannot find any register"));
   }
 
@@ -57,18 +60,12 @@ export const SiswaFindRegister = async (
 
 // create new register
 export const AddRegister = async (req: PostRegisterReqProps, res: Response) => {
-  const decodedToken: any = jwt.verify(
-    req.cookies.token,
-    process.env.JWT_SECRET
-  );
-
-  const data: any = {
+  const data: Prisma.RegisterUncheckedCreateInput = {
+    ...req.body,
     id: uuidv7(),
-    siswa_id: decodedToken.id,
-    tgl_periksa: req.body.tgl_periksa,
   };
 
-  const register: any = await createRegister(data);
+  const register = await createRegister(data);
 
   if (!register) {
     return res.status(400).json(BadRequest("Failed creating register"));
@@ -84,11 +81,7 @@ export const UpdateRegister = async (
   req: PostRegisterReqProps,
   res: Response
 ) => {
-  const data: any = {
-    tgl_periksa: req.body.tgl_periksa,
-  };
-
-  const register: any = await updateRegister(req.params.id, data);
+  const register = await updateRegister(req.params.id, req.body);
 
   if (!register) {
     return res.status(400).json(BadRequest("Failed updating register"));

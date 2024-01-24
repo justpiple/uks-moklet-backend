@@ -2,7 +2,7 @@ import md5 from "md5";
 import { findGuruByEmail } from "@/utils/queries/guru.query";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { Unauthorize } from "@/utils/apiResponse";
+import { Success, Unauthorize } from "@/utils/apiResponse";
 
 interface LoginReqProps extends Request {
   body: {
@@ -43,7 +43,9 @@ export const Login = async (req: LoginReqProps, res: Response) => {
       httpOnly: true,
       maxAge: 15 * 24 * 60 * 60 * 1000, //expired dalam 15 hari
     });
-    res.json({ status: 200, token });
+    res.json(
+      Success("Login success", { data: token, id: id_admin, name, akses })
+    );
   } catch (error) {
     console.log(error);
     res.status(404).json({ error: 404 });

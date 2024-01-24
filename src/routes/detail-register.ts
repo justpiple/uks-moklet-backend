@@ -10,22 +10,18 @@ import { check } from "express-validator";
 
 const router = Router();
 
-var idDetailRegisterValidate = [
-  check("id", "id is required").notEmpty(),
-  validateError,
-];
 var postDetailRegisterValidate = [
-  check("register_id", "Register ID is required").notEmpty(),
-  check("hasil_periksa", "Hasil periksa is required").notEmpty(),
-  check("analisa", "Analisa is required").notEmpty(),
-  check("tindakan", "Tindakan is required").notEmpty(),
-  check("evaluasi", "Evaluasi is required").notEmpty(),
-  check("lanjutan", "Lanjutan is required").notEmpty(),
-  check("guru_id", "Guru ID is required").notEmpty(),
+  check("register_id", "register_id is required").notEmpty(),
+  check("hasil_periksa", "hasil_periksa is required").notEmpty(),
+  check("analisa", "analisa is required").notEmpty(),
+  check("tindakan", "tindakan is required").notEmpty(),
+  check("evaluasi", "evaluasi is required").notEmpty(),
+  check("lanjutan", "lanjutan is required").notEmpty(),
+  check("guru_id", "guru_id is required").notEmpty(),
   validateError,
 ];
-router.post("/create", postDetailRegisterValidate, AddDetailRegister);
-router.put("/update", postDetailRegisterValidate, UpdateDetailRegister);
-router.delete("/delete", idDetailRegisterValidate, DeleteDetailRegister);
+router.post("/", postDetailRegisterValidate, AddDetailRegister);
+router.put("/:id", postDetailRegisterValidate, UpdateDetailRegister);
+router.delete("/:id", DeleteDetailRegister);
 
 export default router;
