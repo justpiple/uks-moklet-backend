@@ -204,6 +204,11 @@ const router = Router();
  *
  */
 
+var idRegisterValidate = [
+  check("id", "id is required").notEmpty(),
+  validateError,
+];
+
 var postRegisterValidate = [
   check("tgl_periksa", "tgl_periksa is required").notEmpty(),
   check("siswa_id", "siswa_id is required").notEmpty(),
