@@ -214,5 +214,10 @@ router.get("/:id", FindRegister);
 router.post("/", postRegisterValidate, AddRegister);
 router.put("/:id", UpdateRegister);
 router.delete("/:id", DeleteRegister);
+router.get("/find", idRegisterValidate, FindRegister);
+router.get("/find/:id", idRegisterValidate, SiswaFindRegister);
+router.post("/create", postRegisterValidate, AddRegister);
+router.put("/update/:id", postRegisterValidate, UpdateRegister);
+router.delete("/delete/:id", idRegisterValidate, DeleteRegister);
 
 export default router;
