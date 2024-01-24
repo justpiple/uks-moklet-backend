@@ -4,7 +4,7 @@ import {
   updateRegister,
   findRegisterByIdSiswa,
   deleteRegister,
-} from "@/utils/queries/register.query";
+} from "@/utils/queries/register/register.query";
 import { Request, Response } from "express";
 import {
   BadRequest,
