@@ -1,38 +1,34 @@
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
+// FIND REGISTER BY ID
 export async function findRegisterById(id: string) {
-  const register = await prisma.register.findFirst({
+  const response = await prisma.register.findUnique({
     where: { id },
     include: { detail_register: { include: { guru: true } }, siswa: true },
   });
-  return register;
+  return response;
 }
 
-export async function findRegisterByIdSiswa(id: string) {
-  const register = await prisma.register.findMany({
-    where: { siswa_id: id },
-    include: { detail_register: true },
-  });
-  return register;
-}
-
+// CREATE NEW REGISTER
 export async function createRegister(
   data: Prisma.RegisterUncheckedCreateInput
 ) {
-  const create = await prisma.register.create({ data });
-  return create;
+  const response = await prisma.register.create({ data });
+  return response;
 }
 
+// UPDATE EXISTING REGISTER
 export async function updateRegister(
   id: string,
   data: Prisma.RegisterUpdateInput
 ) {
-  const update = await prisma.register.update({ where: { id }, data });
-  return update;
+  const response = await prisma.register.update({ where: { id }, data });
+  return response;
 }
 
+// DELETE REGISTER
 export async function deleteRegister(id: string) {
-  const deleteRegister = await prisma.register.delete({ where: { id } });
-  return deleteRegister;
+  const response = await prisma.register.delete({ where: { id } });
+  return response;
 }
