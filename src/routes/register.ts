@@ -204,6 +204,11 @@ const router = Router();
  *
  */
 
+var idRegisterValidate = [
+  check("id", "id is required").notEmpty(),
+  validateError,
+];
+
 var postRegisterValidate = [
   check("tgl_periksa", "tgl_periksa is required").notEmpty(),
   check("siswa_id", "siswa_id is required").notEmpty(),
@@ -214,5 +219,10 @@ router.get("/:id", FindRegister);
 router.post("/", postRegisterValidate, AddRegister);
 router.put("/:id", UpdateRegister);
 router.delete("/:id", DeleteRegister);
+router.get("/find", idRegisterValidate, FindRegister);
+router.get("/find/:id", idRegisterValidate, SiswaFindRegister);
+router.post("/create", postRegisterValidate, AddRegister);
+router.put("/update/:id", postRegisterValidate, UpdateRegister);
+router.delete("/delete/:id", idRegisterValidate, DeleteRegister);
 
 export default router;
