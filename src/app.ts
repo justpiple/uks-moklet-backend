@@ -13,6 +13,7 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.disable("x-powered-by");
 
 app.use(cookieParser());
 

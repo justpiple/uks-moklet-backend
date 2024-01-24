@@ -22,6 +22,24 @@ const router = Router();
  *         password:
  *           type: string
  *           description: The password of your account
+ *     LoginSuccess:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *         status:
+ *           type: number
+ *           example: 200
+ *         success:
+ *           type: boolean
+ *         data:
+ *          type: object
+ *          properties:
+ *            id: string
+ *            token: string
+ *            name: string
+ *            akses: string
+ *
  *     422Props:
  *       type: object
  *       properties:
@@ -29,6 +47,12 @@ const router = Router();
  *         msg: string
  *         path: string
  *         location: string
+ *     401:
+ *       type: object
+ *       properties:
+ *         message: string
+ *         status: integer
+ *         success: boolean
  *     422:
  *       type: object
  *       properties:
@@ -59,7 +83,13 @@ const router = Router();
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Login'
+ *               $ref: '#/components/schemas/LoginSuccess'
+ *       401:
+ *         description: Unauthorized.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/401'
  *
  *       500:
  *         description: Some server error
@@ -67,7 +97,6 @@ const router = Router();
  *           application/json:
  *             schema:
  *              type: object
- *
  *       422:
  *         description: Unprocessable entity.
  *         content:

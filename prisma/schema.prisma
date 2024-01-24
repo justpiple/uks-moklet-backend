@@ -85,6 +85,10 @@ model Rombel{
   guru          Guru          @relation(fields: [guru_id], references: [id])
   guru_id       String        @db.Char(36)
   siswa         RombelSiswa[]
+
+  @@index([guru_id])
+  @@index([semester_id])
+  @@index([kelas_id])
 }
 
 
@@ -94,6 +98,8 @@ model Register {
   siswa_id        String        @db.Char(36)
   tgl_periksa     DateTime      @db.Date
   detail_register DetailRegister?
+
+  @@index([siswa_id])
 }
 
 model DetailRegister {
@@ -108,6 +114,8 @@ model DetailRegister {
   guru          Guru          @relation(fields: [guru_id], references: [id])
   guru_id       String        @db.Char(36)
   rujukan       Rujukan?
+
+  @@index([guru_id])
 }
 
 model Rujukan{
@@ -125,4 +133,6 @@ model RombelSiswa {
   siswa_id            String        @db.Char(36)
 
   @@id([rombel_id, siswa_id])
+  @@index([rombel_id])
+  @@index([siswa_id])
 }

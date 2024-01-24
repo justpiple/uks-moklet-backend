@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 export async function findRegisterById(id: string) {
   const register = await prisma.register.findFirst({
     where: { id },
-    include: { detail_register: true },
+    include: { detail_register: { include: { guru: true } }, siswa: true },
   });
   return register;
 }
@@ -17,7 +17,9 @@ export async function findRegisterByIdSiswa(id: string) {
   return register;
 }
 
-export async function createRegister(data: Prisma.RegisterCreateInput) {
+export async function createRegister(
+  data: Prisma.RegisterUncheckedCreateInput
+) {
   const create = await prisma.register.create({ data });
   return create;
 }

@@ -21,3 +21,7 @@ export function Unauthorize(message: string) {
 export function BadRequest(message: string) {
   return { message, status: 400, success: false };
 }
+
+export function NotFound(message: string) {
+  return { message, status: 404, success: false };
+}
