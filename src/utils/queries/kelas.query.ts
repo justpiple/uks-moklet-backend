@@ -8,9 +8,12 @@ export const findKelasById = async (id: string) => {
 };
 
 // CREATE NEW KELAS
-export const createKelas = async (
-  data: Prisma.KelasUncheckedCreateInput
-) => {
+export const getAllKelas = async () => {
+  const response = await prisma.kelas.findMany({});
+  return response;
+};
+
+export const createKelas = async (data: Prisma.KelasUncheckedCreateInput) => {
   const response = await prisma.kelas.create({ data });
   return response;
 };

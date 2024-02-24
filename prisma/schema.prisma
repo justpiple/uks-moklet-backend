@@ -12,7 +12,6 @@ generator dbml {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
-  relationMode = "prisma"
 }
 
 enum Gender {
@@ -41,7 +40,7 @@ enum TindakanLanjutan {
 }
 
 model Siswa {
-  id            String        @id @db.Char(36) @map("siswa_id")
+  id            String        @id @db.Char(36) @map("siswa_id") @default(uuid())
   email         String        @unique
   name          String
   gender        Gender
@@ -51,7 +50,7 @@ model Siswa {
 }
 
 model Guru {
-  id            String        @id @db.Char(36) @map("guru_id")
+  id            String        @id @db.Char(36) @map("guru_id") @default(uuid())
   email         String        @unique
   name          String
   akses         AksesGuru
@@ -85,19 +84,25 @@ model Rombel{
   guru          Guru          @relation(fields: [guru_id], references: [id])
   guru_id       String        @db.Char(36)
   siswa         RombelSiswa[]
+
+  @@index([guru_id])
+  @@index([semester_id])
+  @@index([kelas_id])
 }
 
 
 model Register {
-  id              String        @id @db.Char(36) @map("register_id")
+  id              String        @id @db.Char(36) @map("register_id") @default(uuid())
   siswa           Siswa         @relation(fields: [siswa_id], references: [id])
   siswa_id        String        @db.Char(36)
   tgl_periksa     DateTime      @db.Date
   detail_register DetailRegister?
+
+  @@index([siswa_id])
 }
 
 model DetailRegister {
-  id            String        @id @db.Char(36) @map("detail_register_id")
+  id            String        @id @db.Char(36) @map("detail_register_id") @default(uuid())
   register      Register      @relation(fields: [register_id], references: [id])
   register_id   String        @unique @db.Char(36)
   hasil_periksa String        @db.LongText
@@ -108,10 +113,12 @@ model DetailRegister {
   guru          Guru          @relation(fields: [guru_id], references: [id])
   guru_id       String        @db.Char(36)
   rujukan       Rujukan?
+
+  @@index([guru_id])
 }
 
 model Rujukan{
-  id                  String          @id @db.Char(36) @map("rujukan_id")
+  id                  String          @id @db.Char(36) @map("rujukan_id") @default(uuid())
   detail_register     DetailRegister  @relation(fields: [detail_register_id], references: [id])
   detail_register_id  String          @db.Char(36) @unique
   analisa_dokter      String          @db.LongText
@@ -125,4 +132,6 @@ model RombelSiswa {
   siswa_id            String        @db.Char(36)
 
   @@id([rombel_id, siswa_id])
+  @@index([rombel_id])
+  @@index([siswa_id])
 }

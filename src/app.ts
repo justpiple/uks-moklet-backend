@@ -8,7 +8,6 @@ import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import options from "./utils/swaggerOption";
 
-const prisma = new PrismaClient();
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));

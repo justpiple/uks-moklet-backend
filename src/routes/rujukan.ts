@@ -3,6 +3,7 @@ import {
   CreateRujukan,
   UpdateRujukan,
   DeleteRujukan,
+  GetAllRujukan,
 } from "@/controllers/rujukan/rujukan.controller";
 import { validateError } from "@/middleware/validateError";
 import { Router } from "express";
@@ -19,9 +20,10 @@ var postRujukanValidate = [
 ];
 
 // MAIN ROUTRER
+router.get("/", GetAllRujukan);
 router.get("/:id", FindRujukanById);
-router.post("/create", postRujukanValidate, CreateRujukan);
-router.put("/update/:id", postRujukanValidate, UpdateRujukan);
-router.delete("/delete/:id", DeleteRujukan);
+router.post("/", postRujukanValidate, CreateRujukan);
+router.put("/:id", postRujukanValidate, UpdateRujukan);
+router.delete("/:id", DeleteRujukan);
 
 export default router;
