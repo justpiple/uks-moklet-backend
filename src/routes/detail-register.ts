@@ -24,8 +24,8 @@ var postDetailRegisterValidate = [
 
 // MAIN ROUTER
 router.get("/:id", FindDetailRegisterById);
-router.post("/create", postDetailRegisterValidate, CreateDetailRegister);
-router.put("/update/:id", postDetailRegisterValidate, UpdateDetailRegister);
-router.delete("/delete/:id", DeleteDetailRegister);
+router.post("/", postDetailRegisterValidate, CreateDetailRegister);
+router.put("/:id", postDetailRegisterValidate, UpdateDetailRegister);
+router.delete("/:id", DeleteDetailRegister);
 
 export default router;

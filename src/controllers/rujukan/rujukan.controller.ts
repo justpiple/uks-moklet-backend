@@ -3,6 +3,7 @@ import {
   createRujukan,
   deleteRujukan,
   updateRujukan,
+  getAllRujukan,
 } from "@/utils/queries/rujukan.query";
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
@@ -13,6 +14,20 @@ interface RujukanReqProps extends Request {
   body: Prisma.RujukanUncheckedCreateInput;
 }
 
+export const GetAllRujukan = async (req: Request, res: Response) => {
+  try {
+    const response = await getAllRujukan();
+    if (response == null) {
+      return res.status(400).json(BadRequest("Cannot find any register"));
+    }
+    return res
+      .status(200)
+      .json(Success("Register loaded successfully", { data: response }));
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(BadRequest(JSON.stringify(error)));
+  }
+};
 // FIND RUJUKAN BY ID
 export const FindRujukanById = async (req: Request, res: Response) => {
   try {
@@ -22,7 +37,7 @@ export const FindRujukanById = async (req: Request, res: Response) => {
     }
     return res
       .status(200)
-      .json(Success("Register loaded successfully", response));
+      .json(Success("Register loaded successfully", { data: response }));
   } catch (error) {
     console.log(error);
     res.status(400).json(BadRequest(JSON.stringify(error)));
@@ -42,7 +57,9 @@ export const CreateRujukan = async (req: RujukanReqProps, res: Response) => {
     }
     return res
       .status(200)
-      .json(CreatedSuccessfully("Rujukan created successfully", response));
+      .json(
+        CreatedSuccessfully("Rujukan created successfully", { data: response })
+      );
   } catch (error) {
     console.log(error);
     res.status(400).json(BadRequest(JSON.stringify(error)));
@@ -56,9 +73,7 @@ export const UpdateRujukan = async (req: RujukanReqProps, res: Response) => {
     if (!response) {
       return res.status(400).json(BadRequest("Failed updating rujukan"));
     }
-    return res
-      .status(200)
-      .json(Success("Rujukan updated successfully", response));
+    return res.status(200).json(Success("Rujukan updated successfully"));
   } catch (error) {
     console.log(error);
     res.status(400).json(BadRequest(JSON.stringify(error)));
@@ -72,9 +87,7 @@ export const DeleteRujukan = async (req: Request, res: Response) => {
     if (!response) {
       return res.status(400).json(BadRequest("Cannot find any rujukan"));
     }
-    return res
-      .status(200)
-      .json(Success("Rujukan deleted successfully", response));
+    return res.status(200).json(Success("Rujukan deleted successfully"));
   } catch (error) {
     console.log(error);
     res.status(400).json(BadRequest(JSON.stringify(error)));

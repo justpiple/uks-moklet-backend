@@ -41,7 +41,7 @@ export const Login = async (req: LoginReqProps, res: Response) => {
     // Membuat http cookie yang dikirimkan ke sisi client
     res.cookie("token", token, {
       httpOnly: true,
-      maxAge: 15 * 24 * 60 * 60 * 1000, //expired dalam 15 hari
+      maxAge: 15 * 24 * 60 * 60 * 1000,
     });
     res.json(
       Success("Login success", { data: token, id: id_admin, name, akses })

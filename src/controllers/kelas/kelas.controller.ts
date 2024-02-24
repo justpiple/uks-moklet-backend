@@ -1,5 +1,9 @@
 import {
-  findKelasById,createKelas,updateKelas,deleteKelas
+  findKelasById,
+  createKelas,
+  updateKelas,
+  deleteKelas,
+  getAllKelas,
 } from "@/utils/queries/kelas.query";
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
@@ -11,6 +15,21 @@ interface KelasReqProps extends Request {
 }
 
 // FIND KELAS BY ID
+export const GetAllKelas = async (req: Request, res: Response) => {
+  try {
+    const response = await getAllKelas();
+    if (response == null) {
+      return res.status(400).json(BadRequest("Cannot find any kelas"));
+    }
+    return res
+      .status(200)
+      .json(Success("Kelas loaded successfully", { data: response }));
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(BadRequest(JSON.stringify(error)));
+  }
+};
+
 export const FindKelasById = async (req: Request, res: Response) => {
   try {
     const response = await findKelasById(req.params.id);
@@ -19,7 +38,7 @@ export const FindKelasById = async (req: Request, res: Response) => {
     }
     return res
       .status(200)
-      .json(Success("Kelas loaded successfully", response));
+      .json(Success("Kelas loaded successfully", { data: response }));
   } catch (error) {
     console.log(error);
     res.status(400).json(BadRequest(JSON.stringify(error)));
@@ -39,7 +58,9 @@ export const CreateKelas = async (req: KelasReqProps, res: Response) => {
     }
     return res
       .status(200)
-      .json(CreatedSuccessfully("Kelas created successfully", response));
+      .json(
+        CreatedSuccessfully("Kelas created successfully", { data: response })
+      );
   } catch (error) {
     console.log(error);
     res.status(400).json(BadRequest(JSON.stringify(error)));
@@ -53,9 +74,7 @@ export const UpdateKelas = async (req: KelasReqProps, res: Response) => {
     if (!response) {
       return res.status(400).json(BadRequest("Failed updating kelas"));
     }
-    return res
-      .status(200)
-      .json(Success("Kelas updated successfully", response));
+    return res.status(200).json(Success("Kelas updated successfully"));
   } catch (error) {
     console.log(error);
     res.status(400).json(BadRequest(JSON.stringify(error)));
@@ -69,9 +88,7 @@ export const DeleteKelas = async (req: Request, res: Response) => {
     if (!response) {
       return res.status(400).json(BadRequest("Cannot find any kelas"));
     }
-    return res
-      .status(200)
-      .json(Success("Kelas deleted successfully", response));
+    return res.status(200).json(Success("Kelas deleted successfully"));
   } catch (error) {
     console.log(error);
     res.status(400).json(BadRequest(JSON.stringify(error)));

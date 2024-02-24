@@ -9,6 +9,12 @@ export async function findRegisterById(id: string) {
   });
   return response;
 }
+export async function getAllRegister() {
+  const response = await prisma.register.findMany({
+    include: { siswa: true },
+  });
+  return response;
+}
 
 // CREATE NEW REGISTER
 export async function createRegister(

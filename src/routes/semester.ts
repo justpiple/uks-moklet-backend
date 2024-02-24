@@ -3,6 +3,7 @@ import {
   CreateSemester,
   UpdateSemester,
   DeleteSemester,
+  GetAllSemester,
 } from "@/controllers/semester/semester.controller";
 import { validateError } from "@/middleware/validateError";
 import { Router } from "express";
@@ -20,9 +21,9 @@ var postSemesterValidate = [
 ];
 
 // MAIN ROUTRER
-router.get("/:id", FindSemesterById);
-router.post("/create", postSemesterValidate, CreateSemester);
-router.put("/update/:id", postSemesterValidate, UpdateSemester);
-router.delete("/delete/:id", DeleteSemester);
+router.get("/", GetAllSemester);
+router.post("/", postSemesterValidate, CreateSemester);
+router.put("/:id", postSemesterValidate, UpdateSemester);
+router.delete("/:id", DeleteSemester);
 
 export default router;

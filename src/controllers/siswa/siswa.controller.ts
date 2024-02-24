@@ -22,7 +22,7 @@ export const FindSiswaById = async (req: Request, res: Response) => {
     }
     return res
       .status(200)
-      .json(Success("Siswa loaded successfully", response));
+      .json(Success("Siswa loaded successfully", { data: response }));
   } catch (error) {
     console.log(error);
     res.status(400).json(BadRequest(JSON.stringify(error)));
@@ -42,7 +42,9 @@ export const CreateSiswa = async (req: siswaReqProps, res: Response) => {
     }
     return res
       .status(200)
-      .json(CreatedSuccessfully("Siswa created successfully", response));
+      .json(
+        CreatedSuccessfully("Siswa created successfully", { data: response })
+      );
   } catch (error) {
     console.log(error);
     res.status(400).json(BadRequest(JSON.stringify(error)));
@@ -56,9 +58,7 @@ export const UpdateSiswa = async (req: siswaReqProps, res: Response) => {
     if (!response) {
       return res.status(400).json(BadRequest("Failed updating siswa"));
     }
-    return res
-      .status(200)
-      .json(Success("Siswa updated successfully", response));
+    return res.status(200).json(Success("Siswa updated successfully"));
   } catch (error) {
     console.log(error);
     res.status(400).json(BadRequest(JSON.stringify(error)));
@@ -72,9 +72,7 @@ export const DeleteSiswa = async (req: Request, res: Response) => {
     if (!response) {
       return res.status(400).json(BadRequest("Cannot find any siswa"));
     }
-    return res
-      .status(200)
-      .json(Success("Siswa deleted successfully", response));
+    return res.status(200).json(Success("Siswa deleted successfully"));
   } catch (error) {
     console.log(error);
     res.status(400).json(BadRequest(JSON.stringify(error)));

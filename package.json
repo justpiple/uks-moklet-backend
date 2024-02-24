@@ -4,7 +4,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/app.ts",
-    "start": "tsc && node src/app.js"
+    "start": "node dist/app.js",
+    "build": "rm -rf dist && tsc",
+    "add-build": "git add dist -f"
   },
   "dependencies": {
     "@prisma/client": "5.7.1",

@@ -1,6 +1,10 @@
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
+export async function getAllSiswa() {
+  const user = await prisma.siswa.findMany({});
+  return user;
+}
 export async function findSiswaByEmail(email: string) {
   const user = await prisma.siswa.findUnique({ where: { email } });
   return user;

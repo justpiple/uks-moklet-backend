@@ -18,9 +18,11 @@ export const FindGuruById = async (req: Request, res: Response) => {
   try {
     const response = await findGuruById(req.params.id);
     if (response == null) {
-      return res.status(400).json(BadRequest("Cannot find any guru"));
+      return res.status(400).json(BadRequest("Cannot find data"));
     }
-    return res.status(200).json(Success("Guru loaded successfully", response));
+    return res
+      .status(200)
+      .json(Success("Data loaded successfully", { data: response }));
   } catch (error) {
     console.log(error);
     res.status(400).json(BadRequest(JSON.stringify(error)));
@@ -40,7 +42,9 @@ export const CreateGuru = async (req: guruReqProps, res: Response) => {
     }
     return res
       .status(200)
-      .json(CreatedSuccessfully("Guru created successfully", response));
+      .json(
+        CreatedSuccessfully("Data created successfully", { data: response })
+      );
   } catch (error) {
     console.log(error);
     res.status(400).json(BadRequest(JSON.stringify(error)));
@@ -54,7 +58,7 @@ export const UpdateGuru = async (req: guruReqProps, res: Response) => {
     if (!response) {
       return res.status(400).json(BadRequest("Failed updating guru"));
     }
-    return res.status(200).json(Success("Guru updated successfully", response));
+    return res.status(200).json(Success("Data updated successfully"));
   } catch (error) {
     console.log(error);
     res.status(400).json(BadRequest(JSON.stringify(error)));
@@ -68,7 +72,7 @@ export const DeleteGuru = async (req: Request, res: Response) => {
     if (!response) {
       return res.status(400).json(BadRequest("Cannot find any guru"));
     }
-    return res.status(200).json(Success("Guru deleted successfully", response));
+    return res.status(200).json(Success("Data deleted successfully"));
   } catch (error) {
     console.log(error);
     res.status(400).json(BadRequest(JSON.stringify(error)));

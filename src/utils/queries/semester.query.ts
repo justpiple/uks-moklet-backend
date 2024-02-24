@@ -7,6 +7,11 @@ export const findSemesterById = async (id: string) => {
   return response;
 };
 
+export const getAllSemester = async () => {
+  const response = await prisma.semester.findMany({});
+  return response;
+};
+
 // CREATE NEW SEMESTER
 export const createSemester = async (
   data: Prisma.SemesterUncheckedCreateInput
