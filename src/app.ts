@@ -9,6 +9,7 @@ import swaggerUi from "swagger-ui-express";
 import options from "./utils/swaggerOption";
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -56,6 +57,6 @@ app.use((req, res) => {
   });
 });
 
-const server = app.listen(3000, () =>
+const server = app.listen(PORT, () =>
   console.log(`🚀 Server ready at: http://localhost:3000`)
 );
