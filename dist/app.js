@@ -12,6 +12,7 @@ var swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
 var swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 var swaggerOption_1 = __importDefault(require("./utils/swaggerOption"));
 var app = (0, express_1.default)();
+var PORT = process.env.PORT || 3000;
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(body_parser_1.default.json());
 app.disable("x-powered-by");
@@ -46,7 +47,7 @@ app.use(function (req, res) {
         message: "error_not_found",
     });
 });
-var server = app.listen(3000, function () {
+var server = app.listen(PORT, function () {
     return console.log("\uD83D\uDE80 Server ready at: http://localhost:3000");
 });
 //# sourceMappingURL=app.js.map
