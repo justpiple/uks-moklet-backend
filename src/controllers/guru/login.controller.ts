@@ -44,7 +44,14 @@ export const Login = async (req: LoginReqProps, res: Response) => {
       maxAge: 15 * 24 * 60 * 60 * 1000,
     });
     res.json(
-      Success("Login success", { data: token, id: id_admin, name, akses })
+      Success("Login success", {
+        data: {
+          token,
+          id: id_admin,
+          name,
+          akses,
+        },
+      })
     );
   } catch (error) {
     console.log(error);
