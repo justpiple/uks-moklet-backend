@@ -356,6 +356,18 @@ var options = {
                 put: {
                     summary: "Update rujukan data",
                     tags: ["Rujukan"],
+                    parameters: [
+                        {
+                            in: "path",
+                            name: "id",
+                            required: true,
+                            schema: {
+                                type: "string",
+                                minimum: 36,
+                            },
+                            description: "rujukan ID",
+                        },
+                    ],
                     requestBody: {
                         required: true,
                         content: {
@@ -455,6 +467,18 @@ var options = {
                 get: {
                     summary: "Update rujukan data",
                     tags: ["Rujukan"],
+                    parameters: [
+                        {
+                            in: "path",
+                            name: "id",
+                            required: true,
+                            schema: {
+                                type: "string",
+                                minimum: 36,
+                            },
+                            description: "rujukan ID",
+                        },
+                    ],
                     responses: {
                         "200": {
                             description: "Login success.",
