@@ -1,3 +1,4 @@
+require("dotenv").config({ path: ".env" });
 import { Prisma, PrismaClient } from "@prisma/client";
 import express from "express";
 import fs from "fs";
