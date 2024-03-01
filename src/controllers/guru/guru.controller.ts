@@ -6,7 +6,12 @@ import {
 } from "@/utils/queries/guru.query";
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
-import { Success, BadRequest, CreatedSuccessfully } from "@/utils/apiResponse";
+import {
+  Success,
+  BadRequest,
+  CreatedSuccessfully,
+  InternalServerError,
+} from "@/utils/apiResponse";
 import { uuidv7 } from "uuidv7";
 
 interface guruReqProps extends Request {
