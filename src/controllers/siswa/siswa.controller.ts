@@ -3,10 +3,17 @@ import {
   createSiswa,
   updateSiswa,
   deleteSiswa,
+  getAllSiswa,
+  searchSiswa,
 } from "@/utils/queries/siswa.query";
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
-import { Success, BadRequest, CreatedSuccessfully } from "@/utils/apiResponse";
+import {
+  Success,
+  BadRequest,
+  CreatedSuccessfully,
+  InternalServerError,
+} from "@/utils/apiResponse";
 import { uuidv7 } from "uuidv7";
 
 interface siswaReqProps extends Request {
@@ -14,6 +21,33 @@ interface siswaReqProps extends Request {
 }
 
 // FIND SISWA BY ID
+export const GetAllSiswa = async (req: Request, res: Response) => {
+  try {
+    const response = await getAllSiswa();
+
+    return res
+      .status(200)
+      .json(Success("Siswa loaded successfully", { data: response }));
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(InternalServerError());
+  }
+};
+
+export const SearchSiswa = async (req: Request, res: Response) => {
+  try {
+    if (!req.query.name)
+      return res.status(400).json(BadRequest("Name is required"));
+    const response = await searchSiswa(req.query.name.toString());
+
+    return res
+      .status(200)
+      .json(Success("Siswa loaded successfully", { data: response }));
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(InternalServerError());
+  }
+};
 export const FindSiswaById = async (req: Request, res: Response) => {
   try {
     const response = await findSiswaById(req.params.id);
@@ -25,7 +59,7 @@ export const FindSiswaById = async (req: Request, res: Response) => {
       .json(Success("Siswa loaded successfully", { data: response }));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 
@@ -38,7 +72,7 @@ export const CreateSiswa = async (req: siswaReqProps, res: Response) => {
     };
     const response = await createSiswa(data);
     if (!response) {
-      return res.status(400).json(BadRequest("Failed creating siswa"));
+      return res.status(500).json(InternalServerError("Failed creating siswa"));
     }
     return res
       .status(200)
@@ -47,7 +81,7 @@ export const CreateSiswa = async (req: siswaReqProps, res: Response) => {
       );
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 
@@ -61,7 +95,7 @@ export const UpdateSiswa = async (req: siswaReqProps, res: Response) => {
     return res.status(200).json(Success("Siswa updated successfully"));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 
@@ -75,6 +109,6 @@ export const DeleteSiswa = async (req: Request, res: Response) => {
     return res.status(200).json(Success("Siswa deleted successfully"));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };

@@ -4,6 +4,7 @@ import {
   UpdateDetailRegister,
   DeleteDetailRegister,
 } from "@/controllers/register/detail-register.controller";
+import { auth } from "@/middleware/auth";
 import { validateError } from "@/middleware/validateError";
 import { Router } from "express";
 import { check } from "express-validator";
@@ -23,6 +24,7 @@ var postDetailRegisterValidate = [
 ];
 
 // MAIN ROUTER
+router.use(auth(["ADMIN", "WALAS"]));
 router.get("/:id", FindDetailRegisterById);
 router.post("/", postDetailRegisterValidate, CreateDetailRegister);
 router.put("/:id", postDetailRegisterValidate, UpdateDetailRegister);

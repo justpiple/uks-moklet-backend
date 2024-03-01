@@ -1,49 +1,32 @@
-import { Response, NextFunction } from "express";
-import { RequestWithSession } from "@/types/middleware";
-import { Unauthorize } from "@/utils/apiResponse";
+import { Request, Response, NextFunction } from "express";
+import { RequestWithSession, Token } from "@/types/middleware";
+import jwt from "jsonwebtoken";
+import { InternalServerError, Unauthorize } from "@/utils/apiResponse";
 
-// Middleware to verify JWT and check if the user has admin role
-export const isAdmin = (
-  req: RequestWithSession,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    if (req.token.role != "ADMIN")
-      return res.status(401).json(Unauthorize("Unauthorized: Not admin"));
+export const auth =
+  (
+    akses: "SISWA" | "ADMIN" | "WALAS" | "ALL" | ("SISWA" | "ADMIN" | "WALAS")[]
+  ) =>
+  (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const token =
+        req.cookies.token || req.headers.authorization?.split("Bearer ")[1];
 
-    next();
-  } catch (error) {
-    return res.status(401).json(Unauthorize("Unauthorized: Invalid token"));
-  }
-};
+      if (!token) {
+        return res.status(401).json(Unauthorize("Unauthorized"));
+      }
+      const JWTSecret = process.env.JWT_SECRET;
+      const decoded = jwt.verify(token, JWTSecret) as unknown as Token;
+      if (
+        (decoded.role != akses || !akses.includes(decoded.role)) &&
+        akses != "ALL"
+      ) {
+        return res.status(401).json(Unauthorize("Unauthorized"));
+      }
 
-export const isWalas = (
-  req: RequestWithSession,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    if (req.token.role != "WALAS")
-      res.status(401).json(Unauthorize("Unauthorized: Not walas"));
-
-    next();
-  } catch (error) {
-    return res.status(401).json(Unauthorize("Unauthorized: Invalid token"));
-  }
-};
-
-export const isSiswa = (
-  req: RequestWithSession,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    if (req.token.role != "SISWA")
-      return res.status(401).json(Unauthorize("Unauthorized: Not siswa"));
-
-    next();
-  } catch (error) {
-    return res.status(401).json(Unauthorize("Unauthorized: Invalid token"));
-  }
-};
+      (req as RequestWithSession).token = decoded;
+      next();
+    } catch {
+      return res.status(500).json(InternalServerError("Authentication error"));
+    }
+  };

@@ -70,7 +70,7 @@ var FindGuruById = function (req, res) { return __awaiter(void 0, void 0, void 0
             case 2:
                 error_1 = _a.sent();
                 console.log(error_1);
-                res.status(400).json((0, apiResponse_1.BadRequest)(JSON.stringify(error_1)));
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -97,7 +97,7 @@ var CreateGuru = function (req, res) { return __awaiter(void 0, void 0, void 0, 
             case 2:
                 error_2 = _a.sent();
                 console.log(error_2);
-                res.status(400).json((0, apiResponse_1.BadRequest)(JSON.stringify(error_2)));
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -121,7 +121,7 @@ var UpdateGuru = function (req, res) { return __awaiter(void 0, void 0, void 0, 
             case 2:
                 error_3 = _a.sent();
                 console.log(error_3);
-                res.status(400).json((0, apiResponse_1.BadRequest)(JSON.stringify(error_3)));
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -145,7 +145,7 @@ var DeleteGuru = function (req, res) { return __awaiter(void 0, void 0, void 0, 
             case 2:
                 error_4 = _a.sent();
                 console.log(error_4);
-                res.status(400).json((0, apiResponse_1.BadRequest)(JSON.stringify(error_4)));
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

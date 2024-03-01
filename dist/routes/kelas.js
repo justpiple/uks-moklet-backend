@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var kelas_controller_1 = require("@/controllers/kelas/kelas.controller");
+var auth_1 = require("@/middleware/auth");
 var validateError_1 = require("@/middleware/validateError");
 var express_1 = require("express");
 var express_validator_1 = require("express-validator");
@@ -12,6 +13,7 @@ var postKelasValidate = [
     validateError_1.validateError,
 ];
 // MAIN ROUTRER
+router.use((0, auth_1.auth)(["ADMIN", "WALAS"]));
 router.get("/", kelas_controller_1.GetAllKelas);
 router.get("/:id", kelas_controller_1.FindKelasById);
 router.post("/", postKelasValidate, kelas_controller_1.CreateKelas);

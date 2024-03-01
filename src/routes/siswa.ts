@@ -1,4 +1,6 @@
 import { Login } from "@/controllers/siswa/login.controller";
+import { GetAllSiswa, SearchSiswa } from "@/controllers/siswa/siswa.controller";
+import { auth } from "@/middleware/auth";
 import { validateError } from "@/middleware/validateError";
 import { Router } from "express";
 import { check } from "express-validator";
@@ -11,5 +13,7 @@ var loginValidate = [
   validateError,
 ];
 router.post("/login", loginValidate, Login);
+router.get("/", auth("ADMIN"), GetAllSiswa);
+router.get("/search", SearchSiswa);
 
 export default router;

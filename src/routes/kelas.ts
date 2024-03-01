@@ -5,6 +5,7 @@ import {
   DeleteKelas,
   GetAllKelas,
 } from "@/controllers/kelas/kelas.controller";
+import { auth } from "@/middleware/auth";
 import { validateError } from "@/middleware/validateError";
 import { Router } from "express";
 import { check } from "express-validator";
@@ -19,6 +20,7 @@ var postKelasValidate = [
 ];
 
 // MAIN ROUTRER
+router.use(auth(["ADMIN", "WALAS"]));
 router.get("/", GetAllKelas);
 router.get("/:id", FindKelasById);
 router.post("/", postKelasValidate, CreateKelas);

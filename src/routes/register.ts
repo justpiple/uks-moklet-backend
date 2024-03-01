@@ -5,6 +5,7 @@ import {
   UpdateRegister,
   GetAllRegister,
 } from "@/controllers/register/register.controller";
+import { auth } from "@/middleware/auth";
 import { validateError } from "@/middleware/validateError";
 import { Router } from "express";
 import { check } from "express-validator";
@@ -19,10 +20,12 @@ var postRegisterValidate = [
 ];
 
 // MAIN ROUTER
-router.get("/", GetAllRegister);
-router.get("/:id", FindRegisterById);
+router.get("/:id", auth("ALL"), FindRegisterById);
+
+router.use(auth("ADMIN"));
 router.post("/", postRegisterValidate, CreateRegister);
 router.put("/:id", postRegisterValidate, UpdateRegister);
 router.delete("/:id", DeleteRegister);
+router.get("/", GetAllRegister);
 
 export default router;

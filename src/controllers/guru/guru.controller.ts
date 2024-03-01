@@ -25,7 +25,7 @@ export const FindGuruById = async (req: Request, res: Response) => {
       .json(Success("Data loaded successfully", { data: response }));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 
@@ -47,7 +47,7 @@ export const CreateGuru = async (req: guruReqProps, res: Response) => {
       );
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 
@@ -61,7 +61,7 @@ export const UpdateGuru = async (req: guruReqProps, res: Response) => {
     return res.status(200).json(Success("Data updated successfully"));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 
@@ -75,6 +75,6 @@ export const DeleteGuru = async (req: Request, res: Response) => {
     return res.status(200).json(Success("Data deleted successfully"));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };

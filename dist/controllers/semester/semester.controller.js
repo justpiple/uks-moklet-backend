@@ -61,7 +61,7 @@ var GetAllSemester = function (req, res) { return __awaiter(void 0, void 0, void
             case 1:
                 response = _a.sent();
                 if (response == null) {
-                    return [2 /*return*/, res.status(400).json((0, apiResponse_1.BadRequest)("Cannot find any semester"))];
+                    return [2 /*return*/, res.status(404).json((0, apiResponse_1.NotFound)("Cannot find any semester"))];
                 }
                 return [2 /*return*/, res
                         .status(200)
@@ -69,7 +69,7 @@ var GetAllSemester = function (req, res) { return __awaiter(void 0, void 0, void
             case 2:
                 error_1 = _a.sent();
                 console.log(error_1);
-                res.status(400).json((0, apiResponse_1.BadRequest)(JSON.stringify(error_1)));
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -87,7 +87,7 @@ var FindSemesterById = function (req, res) { return __awaiter(void 0, void 0, vo
             case 1:
                 response = _a.sent();
                 if (response == null) {
-                    return [2 /*return*/, res.status(400).json((0, apiResponse_1.BadRequest)("Cannot find any semester"))];
+                    return [2 /*return*/, res.status(404).json((0, apiResponse_1.NotFound)("Cannot find any semester"))];
                 }
                 return [2 /*return*/, res
                         .status(200)
@@ -95,7 +95,7 @@ var FindSemesterById = function (req, res) { return __awaiter(void 0, void 0, vo
             case 2:
                 error_2 = _a.sent();
                 console.log(error_2);
-                res.status(400).json((0, apiResponse_1.BadRequest)(JSON.stringify(error_2)));
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -114,7 +114,7 @@ var CreateSemester = function (req, res) { return __awaiter(void 0, void 0, void
             case 1:
                 response = _a.sent();
                 if (!response) {
-                    return [2 /*return*/, res.status(400).json((0, apiResponse_1.BadRequest)("Failed creating semester"))];
+                    return [2 /*return*/, res.status(500).json((0, apiResponse_1.InternalServerError)())];
                 }
                 return [2 /*return*/, res
                         .status(200)
@@ -122,7 +122,7 @@ var CreateSemester = function (req, res) { return __awaiter(void 0, void 0, void
             case 2:
                 error_3 = _a.sent();
                 console.log(error_3);
-                res.status(400).json((0, apiResponse_1.BadRequest)(JSON.stringify(error_3)));
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -140,13 +140,13 @@ var UpdateSemester = function (req, res) { return __awaiter(void 0, void 0, void
             case 1:
                 response = _a.sent();
                 if (!response) {
-                    return [2 /*return*/, res.status(400).json((0, apiResponse_1.BadRequest)("Failed updating semester"))];
+                    return [2 /*return*/, res.status(404).json((0, apiResponse_1.NotFound)("Failed updating semester"))];
                 }
                 return [2 /*return*/, res.status(200).json((0, apiResponse_1.Success)("Semester updated successfully"))];
             case 2:
                 error_4 = _a.sent();
                 console.log(error_4);
-                res.status(400).json((0, apiResponse_1.BadRequest)(JSON.stringify(error_4)));
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -164,13 +164,13 @@ var DeleteSemester = function (req, res) { return __awaiter(void 0, void 0, void
             case 1:
                 response = _a.sent();
                 if (!response) {
-                    return [2 /*return*/, res.status(400).json((0, apiResponse_1.BadRequest)("Cannot find any semester"))];
+                    return [2 /*return*/, res.status(404).json((0, apiResponse_1.NotFound)("Cannot find any semester"))];
                 }
                 return [2 /*return*/, res.status(200).json((0, apiResponse_1.Success)("Semester deleted successfully"))];
             case 2:
                 error_5 = _a.sent();
                 console.log(error_5);
-                res.status(400).json((0, apiResponse_1.BadRequest)(JSON.stringify(error_5)));
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

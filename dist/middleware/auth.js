@@ -1,39 +1,32 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isSiswa = exports.isWalas = exports.isAdmin = void 0;
+exports.auth = void 0;
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var apiResponse_1 = require("@/utils/apiResponse");
-// Middleware to verify JWT and check if the user has admin role
-var isAdmin = function (req, res, next) {
-    try {
-        if (req.token.role != "ADMIN")
-            return res.status(401).json((0, apiResponse_1.Unauthorize)("Unauthorized: Not admin"));
-        next();
-    }
-    catch (error) {
-        return res.status(401).json((0, apiResponse_1.Unauthorize)("Unauthorized: Invalid token"));
-    }
+var auth = function (akses) {
+    return function (req, res, next) {
+        var _a;
+        try {
+            var token = req.cookies.token || ((_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split("Bearer ")[1]);
+            if (!token) {
+                return res.status(401).json((0, apiResponse_1.Unauthorize)("Unauthorized"));
+            }
+            var JWTSecret = process.env.JWT_SECRET;
+            var decoded = jsonwebtoken_1.default.verify(token, JWTSecret);
+            if ((decoded.role != akses || !akses.includes(decoded.role)) &&
+                akses != "ALL") {
+                return res.status(401).json((0, apiResponse_1.Unauthorize)("Unauthorized"));
+            }
+            req.token = decoded;
+            next();
+        }
+        catch (_b) {
+            return res.status(500).json((0, apiResponse_1.InternalServerError)("Authentication error"));
+        }
+    };
 };
-exports.isAdmin = isAdmin;
-var isWalas = function (req, res, next) {
-    try {
-        if (req.token.role != "WALAS")
-            res.status(401).json((0, apiResponse_1.Unauthorize)("Unauthorized: Not walas"));
-        next();
-    }
-    catch (error) {
-        return res.status(401).json((0, apiResponse_1.Unauthorize)("Unauthorized: Invalid token"));
-    }
-};
-exports.isWalas = isWalas;
-var isSiswa = function (req, res, next) {
-    try {
-        if (req.token.role != "SISWA")
-            return res.status(401).json((0, apiResponse_1.Unauthorize)("Unauthorized: Not siswa"));
-        next();
-    }
-    catch (error) {
-        return res.status(401).json((0, apiResponse_1.Unauthorize)("Unauthorized: Invalid token"));
-    }
-};
-exports.isSiswa = isSiswa;
+exports.auth = auth;
 //# sourceMappingURL=auth.js.map

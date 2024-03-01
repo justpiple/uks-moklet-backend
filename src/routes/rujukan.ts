@@ -5,6 +5,7 @@ import {
   DeleteRujukan,
   GetAllRujukan,
 } from "@/controllers/rujukan/rujukan.controller";
+import { auth } from "@/middleware/auth";
 import { validateError } from "@/middleware/validateError";
 import { Router } from "express";
 import { check } from "express-validator";
@@ -20,6 +21,7 @@ var postRujukanValidate = [
 ];
 
 // MAIN ROUTRER
+router.use(auth("ADMIN"));
 router.get("/", GetAllRujukan);
 router.get("/:id", FindRujukanById);
 router.post("/", postRujukanValidate, CreateRujukan);

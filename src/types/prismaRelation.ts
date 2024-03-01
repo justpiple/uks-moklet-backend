@@ -9,5 +9,21 @@ export type registerWithSiswa = Prisma.RegisterGetPayload<{
 }>;
 
 export type registerWithDetail = Prisma.RegisterGetPayload<{
-  include: { siswa: true; detail_register: { include: { guru: true } } };
+  include: {
+    detail_register: { include: { guru: true } };
+    siswa: {
+      select: {
+        rombel: {
+          select: {
+            rombel: {
+              select: {
+                semester: true;
+                kelas: { select: { nama_kelas: true; tingkat: true } };
+              };
+            };
+          };
+        };
+      };
+    };
+  };
 }>;

@@ -47,13 +47,59 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DeleteSiswa = exports.UpdateSiswa = exports.CreateSiswa = exports.FindSiswaById = void 0;
+exports.DeleteSiswa = exports.UpdateSiswa = exports.CreateSiswa = exports.FindSiswaById = exports.SearchSiswa = exports.GetAllSiswa = void 0;
 var siswa_query_1 = require("@/utils/queries/siswa.query");
 var apiResponse_1 = require("@/utils/apiResponse");
 var uuidv7_1 = require("uuidv7");
 // FIND SISWA BY ID
-var FindSiswaById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var GetAllSiswa = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var response, error_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, (0, siswa_query_1.getAllSiswa)()];
+            case 1:
+                response = _a.sent();
+                return [2 /*return*/, res
+                        .status(200)
+                        .json((0, apiResponse_1.Success)("Siswa loaded successfully", { data: response }))];
+            case 2:
+                error_1 = _a.sent();
+                console.log(error_1);
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.GetAllSiswa = GetAllSiswa;
+var SearchSiswa = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var response, error_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                if (!req.query.name)
+                    return [2 /*return*/, res.status(400).json((0, apiResponse_1.BadRequest)("Name is required"))];
+                return [4 /*yield*/, (0, siswa_query_1.searchSiswa)(req.query.name.toString())];
+            case 1:
+                response = _a.sent();
+                return [2 /*return*/, res
+                        .status(200)
+                        .json((0, apiResponse_1.Success)("Siswa loaded successfully", { data: response }))];
+            case 2:
+                error_2 = _a.sent();
+                console.log(error_2);
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.SearchSiswa = SearchSiswa;
+var FindSiswaById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var response, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -68,9 +114,9 @@ var FindSiswaById = function (req, res) { return __awaiter(void 0, void 0, void 
                         .status(200)
                         .json((0, apiResponse_1.Success)("Siswa loaded successfully", { data: response }))];
             case 2:
-                error_1 = _a.sent();
-                console.log(error_1);
-                res.status(400).json((0, apiResponse_1.BadRequest)(JSON.stringify(error_1)));
+                error_3 = _a.sent();
+                console.log(error_3);
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -79,7 +125,7 @@ var FindSiswaById = function (req, res) { return __awaiter(void 0, void 0, void 
 exports.FindSiswaById = FindSiswaById;
 // CREATE NEW SISWA
 var CreateSiswa = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var data, response, error_2;
+    var data, response, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -89,15 +135,15 @@ var CreateSiswa = function (req, res) { return __awaiter(void 0, void 0, void 0,
             case 1:
                 response = _a.sent();
                 if (!response) {
-                    return [2 /*return*/, res.status(400).json((0, apiResponse_1.BadRequest)("Failed creating siswa"))];
+                    return [2 /*return*/, res.status(500).json((0, apiResponse_1.InternalServerError)("Failed creating siswa"))];
                 }
                 return [2 /*return*/, res
                         .status(200)
                         .json((0, apiResponse_1.CreatedSuccessfully)("Siswa created successfully", { data: response }))];
             case 2:
-                error_2 = _a.sent();
-                console.log(error_2);
-                res.status(400).json((0, apiResponse_1.BadRequest)(JSON.stringify(error_2)));
+                error_4 = _a.sent();
+                console.log(error_4);
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -106,7 +152,7 @@ var CreateSiswa = function (req, res) { return __awaiter(void 0, void 0, void 0,
 exports.CreateSiswa = CreateSiswa;
 // UPDATE EXISTING SISWA
 var UpdateSiswa = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var response, error_3;
+    var response, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -119,9 +165,9 @@ var UpdateSiswa = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 }
                 return [2 /*return*/, res.status(200).json((0, apiResponse_1.Success)("Siswa updated successfully"))];
             case 2:
-                error_3 = _a.sent();
-                console.log(error_3);
-                res.status(400).json((0, apiResponse_1.BadRequest)(JSON.stringify(error_3)));
+                error_5 = _a.sent();
+                console.log(error_5);
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -130,7 +176,7 @@ var UpdateSiswa = function (req, res) { return __awaiter(void 0, void 0, void 0,
 exports.UpdateSiswa = UpdateSiswa;
 // DELETE SISWA
 var DeleteSiswa = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var response, error_4;
+    var response, error_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -143,9 +189,9 @@ var DeleteSiswa = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 }
                 return [2 /*return*/, res.status(200).json((0, apiResponse_1.Success)("Siswa deleted successfully"))];
             case 2:
-                error_4 = _a.sent();
-                console.log(error_4);
-                res.status(400).json((0, apiResponse_1.BadRequest)(JSON.stringify(error_4)));
+                error_6 = _a.sent();
+                console.log(error_6);
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

@@ -2,16 +2,51 @@ import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
 // FIND REGISTER BY ID
+
 export async function findRegisterById(id: string) {
   const response = await prisma.register.findUnique({
     where: { id },
-    include: { detail_register: { include: { guru: true } }, siswa: true },
+    include: {
+      detail_register: { include: { guru: true } },
+      siswa: {
+        select: {
+          name: true,
+          rombel: {
+            select: {
+              rombel: {
+                select: {
+                  semester: true,
+                  kelas: { select: { nama_kelas: true, tingkat: true } },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   });
   return response;
 }
+
 export async function getAllRegister() {
   const response = await prisma.register.findMany({
-    include: { siswa: true },
+    include: {
+      siswa: {
+        select: {
+          id: true,
+          name: true,
+          rombel: {
+            select: {
+              rombel: {
+                select: {
+                  kelas: { select: { nama_kelas: true, tingkat: true } },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   });
   return response;
 }
