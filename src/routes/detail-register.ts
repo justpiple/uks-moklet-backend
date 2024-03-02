@@ -24,7 +24,7 @@ var postDetailRegisterValidate = [
 ];
 
 // MAIN ROUTER
-router.use(auth(["ADMIN", "WALAS"]));
+router.use(auth("ADMIN", "WALAS"));
 router.get("/:id", FindDetailRegisterById);
 router.post("/", postDetailRegisterValidate, CreateDetailRegister);
 router.put("/:id", postDetailRegisterValidate, UpdateDetailRegister);

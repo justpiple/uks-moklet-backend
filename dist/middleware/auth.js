@@ -6,7 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.auth = void 0;
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var apiResponse_1 = require("@/utils/apiResponse");
-var auth = function (akses) {
+var auth = function () {
+    var akses = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        akses[_i] = arguments[_i];
+    }
     return function (req, res, next) {
         var _a;
         try {
@@ -16,8 +20,7 @@ var auth = function (akses) {
             }
             var JWTSecret = process.env.JWT_SECRET;
             var decoded = jsonwebtoken_1.default.verify(token, JWTSecret);
-            if ((decoded.role != akses || !akses.includes(decoded.role)) &&
-                akses != "ALL") {
+            if (!akses.includes(decoded.role)) {
                 return res.status(401).json((0, apiResponse_1.Unauthorize)("Unauthorized"));
             }
             req.token = decoded;

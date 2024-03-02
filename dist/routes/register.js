@@ -14,8 +14,8 @@ var postRegisterValidate = [
 ];
 // MAIN ROUTER
 router.get("/:id", (0, auth_1.auth)("ALL"), register_controller_1.FindRegisterById);
+router.post("/", (0, auth_1.auth)("ADMIN", "SISWA"), postRegisterValidate, register_controller_1.CreateRegister);
 router.use((0, auth_1.auth)("ADMIN"));
-router.post("/", postRegisterValidate, register_controller_1.CreateRegister);
 router.put("/:id", postRegisterValidate, register_controller_1.UpdateRegister);
 router.delete("/:id", register_controller_1.DeleteRegister);
 router.get("/", register_controller_1.GetAllRegister);

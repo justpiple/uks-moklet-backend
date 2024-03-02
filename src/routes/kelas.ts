@@ -20,7 +20,7 @@ var postKelasValidate = [
 ];
 
 // MAIN ROUTRER
-router.use(auth(["ADMIN", "WALAS"]));
+router.use(auth("ADMIN", "WALAS"));
 router.get("/", GetAllKelas);
 router.get("/:id", FindKelasById);
 router.post("/", postKelasValidate, CreateKelas);

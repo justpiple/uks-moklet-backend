@@ -22,8 +22,8 @@ var postRegisterValidate = [
 // MAIN ROUTER
 router.get("/:id", auth("ALL"), FindRegisterById);
 
+router.post("/", auth("ADMIN", "SISWA"), postRegisterValidate, CreateRegister);
 router.use(auth("ADMIN"));
-router.post("/", postRegisterValidate, CreateRegister);
 router.put("/:id", postRegisterValidate, UpdateRegister);
 router.delete("/:id", DeleteRegister);
 router.get("/", GetAllRegister);

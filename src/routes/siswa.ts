@@ -14,6 +14,6 @@ var loginValidate = [
 ];
 router.post("/login", loginValidate, Login);
 router.get("/", auth("ADMIN"), GetAllSiswa);
-router.get("/search", SearchSiswa);
+router.get("/search", auth("ALL"), SearchSiswa);
 
 export default router;

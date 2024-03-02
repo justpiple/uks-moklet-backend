@@ -18,7 +18,7 @@ var postDetailRegisterValidate = [
     validateError_1.validateError,
 ];
 // MAIN ROUTER
-router.use((0, auth_1.auth)(["ADMIN", "WALAS"]));
+router.use((0, auth_1.auth)("ADMIN", "WALAS"));
 router.get("/:id", detail_register_controller_1.FindDetailRegisterById);
 router.post("/", postDetailRegisterValidate, detail_register_controller_1.CreateDetailRegister);
 router.put("/:id", postDetailRegisterValidate, detail_register_controller_1.UpdateDetailRegister);

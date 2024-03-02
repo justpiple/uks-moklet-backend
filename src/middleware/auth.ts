@@ -4,9 +4,7 @@ import jwt from "jsonwebtoken";
 import { InternalServerError, Unauthorize } from "@/utils/apiResponse";
 
 export const auth =
-  (
-    akses: "SISWA" | "ADMIN" | "WALAS" | "ALL" | ("SISWA" | "ADMIN" | "WALAS")[]
-  ) =>
+  (...akses: ("SISWA" | "ADMIN" | "WALAS" | "ALL")[]) =>
   (req: Request, res: Response, next: NextFunction) => {
     try {
       const token =
@@ -17,10 +15,7 @@ export const auth =
       }
       const JWTSecret = process.env.JWT_SECRET;
       const decoded = jwt.verify(token, JWTSecret) as unknown as Token;
-      if (
-        (decoded.role != akses || !akses.includes(decoded.role)) &&
-        akses != "ALL"
-      ) {
+      if (!akses.includes(decoded.role)) {
         return res.status(401).json(Unauthorize("Unauthorized"));
       }
 

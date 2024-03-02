@@ -14,6 +14,6 @@ var loginValidate = [
 ];
 router.post("/login", loginValidate, login_controller_1.Login);
 router.get("/", (0, auth_1.auth)("ADMIN"), siswa_controller_1.GetAllSiswa);
-router.get("/search", siswa_controller_1.SearchSiswa);
+router.get("/search", (0, auth_1.auth)("ALL"), siswa_controller_1.SearchSiswa);
 exports.default = router;
 //# sourceMappingURL=siswa.js.map
