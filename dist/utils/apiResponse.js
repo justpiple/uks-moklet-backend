@@ -20,8 +20,12 @@ function CreatedSuccessfully(message, otherResponses) {
     return __assign({ status: 201, message: message, success: true }, otherResponses);
 }
 exports.CreatedSuccessfully = CreatedSuccessfully;
-function InternalServerError() {
-    return { message: "Internal server error", status: 500, success: false };
+function InternalServerError(message) {
+    return {
+        message: message || "Internal server error",
+        status: 500,
+        success: false,
+    };
 }
 exports.InternalServerError = InternalServerError;
 function Forbidden(message) {

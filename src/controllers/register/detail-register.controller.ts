@@ -5,7 +5,12 @@ import {
   deleteDetailRegister,
 } from "@/utils/queries/register/detail-register.query";
 import { Request, Response } from "express";
-import { BadRequest, CreatedSuccessfully, Success } from "@/utils/apiResponse";
+import {
+  BadRequest,
+  CreatedSuccessfully,
+  InternalServerError,
+  Success,
+} from "@/utils/apiResponse";
 import { uuidv7 } from "uuidv7";
 import { Prisma } from "@prisma/client";
 
@@ -30,7 +35,7 @@ export const FindDetailRegisterById = async (
       .json(Success("Detail register loaded successfully", response));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 
@@ -57,7 +62,7 @@ export const CreateDetailRegister = async (
       );
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 
@@ -69,12 +74,11 @@ export const UpdateDetailRegister = async (
   try {
     const data: Prisma.DetailRegisterUpdateInput = {
       ...req.body,
-      id: uuidv7(),
     };
     const detailRegister = await updateDetailRegister(req.params.id, data);
     if (!detailRegister) {
       return res
-        .status(400)
+        .status(500)
         .json(BadRequest("Failed updating detail register"));
     }
     return res
@@ -82,7 +86,7 @@ export const UpdateDetailRegister = async (
       .json(Success("Detail register updated successfully", detailRegister));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 
@@ -100,6 +104,6 @@ export const DeleteDetailRegister = async (req: Request, res: Response) => {
       .json(Success("Detail register deleted successfully", detailRegister));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };

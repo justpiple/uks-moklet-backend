@@ -13,7 +13,13 @@ import cors from "cors";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3001", "http://kusindras-macbook.local:3001"],
+    credentials: true,
+    exposedHeaders: ["set-cookie"],
+  })
+);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.disable("x-powered-by");
@@ -54,7 +60,7 @@ rootRoute
 const specs = swaggerJSDoc(options);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use((req, res) => {
-  res.json({
+  res.status(404).json({
     status: 404,
     message: "error_not_found",
   });

@@ -39,14 +39,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteSiswa = exports.updateSiswa = exports.createSiswa = exports.findSiswaById = exports.findSiswaByEmail = exports.getAllSiswa = void 0;
+exports.deleteSiswa = exports.updateSiswa = exports.createSiswa = exports.findSiswaById = exports.findSiswaByEmail = exports.searchSiswa = exports.getAllSiswa = void 0;
 var prisma_1 = __importDefault(require("@/lib/prisma"));
 function getAllSiswa() {
     return __awaiter(this, void 0, void 0, function () {
         var user;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, prisma_1.default.siswa.findMany({})];
+                case 0: return [4 /*yield*/, prisma_1.default.siswa.findMany({
+                        select: {
+                            name: true,
+                            id: true,
+                            email: true,
+                            rombel: {
+                                select: {
+                                    rombel: {
+                                        select: { kelas: { select: { nama_kelas: true, tingkat: true } } },
+                                    },
+                                },
+                            },
+                        },
+                    })];
                 case 1:
                     user = _a.sent();
                     return [2 /*return*/, user];
@@ -55,6 +68,34 @@ function getAllSiswa() {
     });
 }
 exports.getAllSiswa = getAllSiswa;
+function searchSiswa(query) {
+    return __awaiter(this, void 0, void 0, function () {
+        var user;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, prisma_1.default.siswa.findMany({
+                        where: { name: { contains: query } },
+                        select: {
+                            name: true,
+                            id: true,
+                            email: true,
+                            rombel: {
+                                select: {
+                                    rombel: {
+                                        select: { kelas: { select: { nama_kelas: true, tingkat: true } } },
+                                    },
+                                },
+                            },
+                        },
+                    })];
+                case 1:
+                    user = _a.sent();
+                    return [2 /*return*/, user];
+            }
+        });
+    });
+}
+exports.searchSiswa = searchSiswa;
 function findSiswaByEmail(email) {
     return __awaiter(this, void 0, void 0, function () {
         var user;

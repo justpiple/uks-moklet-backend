@@ -2,9 +2,42 @@ import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
 export async function getAllSiswa() {
-  const user = await prisma.siswa.findMany({});
+  const user = await prisma.siswa.findMany({
+    select: {
+      name: true,
+      id: true,
+      email: true,
+      rombel: {
+        select: {
+          rombel: {
+            select: { kelas: { select: { nama_kelas: true, tingkat: true } } },
+          },
+        },
+      },
+    },
+  });
   return user;
 }
+
+export async function searchSiswa(query: string) {
+  const user = await prisma.siswa.findMany({
+    where: { name: { contains: query } },
+    select: {
+      name: true,
+      id: true,
+      email: true,
+      rombel: {
+        select: {
+          rombel: {
+            select: { kelas: { select: { nama_kelas: true, tingkat: true } } },
+          },
+        },
+      },
+    },
+  });
+  return user;
+}
+
 export async function findSiswaByEmail(email: string) {
   const user = await prisma.siswa.findUnique({ where: { email } });
   return user;

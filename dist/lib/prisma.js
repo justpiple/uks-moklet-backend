@@ -13,5 +13,6 @@ else {
     }
     prisma = global.prisma;
 }
+prisma.$use;
 exports.default = prisma;
 //# sourceMappingURL=prisma.js.map

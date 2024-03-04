@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var detail_register_controller_1 = require("@/controllers/register/detail-register.controller");
+var auth_1 = require("@/middleware/auth");
 var validateError_1 = require("@/middleware/validateError");
 var express_1 = require("express");
 var express_validator_1 = require("express-validator");
@@ -17,6 +18,7 @@ var postDetailRegisterValidate = [
     validateError_1.validateError,
 ];
 // MAIN ROUTER
+router.use((0, auth_1.auth)("ADMIN", "WALAS"));
 router.get("/:id", detail_register_controller_1.FindDetailRegisterById);
 router.post("/", postDetailRegisterValidate, detail_register_controller_1.CreateDetailRegister);
 router.put("/:id", postDetailRegisterValidate, detail_register_controller_1.UpdateDetailRegister);

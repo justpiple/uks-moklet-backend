@@ -49,7 +49,24 @@ function findRegisterById(id) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, prisma_1.default.register.findUnique({
                         where: { id: id },
-                        include: { detail_register: { include: { guru: true } }, siswa: true },
+                        include: {
+                            detail_register: { include: { guru: true } },
+                            siswa: {
+                                select: {
+                                    name: true,
+                                    rombel: {
+                                        select: {
+                                            rombel: {
+                                                select: {
+                                                    semester: true,
+                                                    kelas: { select: { nama_kelas: true, tingkat: true } },
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
                     })];
                 case 1:
                     response = _a.sent();
@@ -65,7 +82,23 @@ function getAllRegister() {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, prisma_1.default.register.findMany({
-                        include: { siswa: true },
+                        include: {
+                            siswa: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                    rombel: {
+                                        select: {
+                                            rombel: {
+                                                select: {
+                                                    kelas: { select: { nama_kelas: true, tingkat: true } },
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
                     })];
                 case 1:
                     response = _a.sent();

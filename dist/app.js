@@ -15,7 +15,11 @@ var swaggerOption_1 = __importDefault(require("./utils/swaggerOption"));
 var cors_1 = __importDefault(require("cors"));
 var app = (0, express_1.default)();
 var PORT = process.env.PORT || 3000;
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: ["http://localhost:3001", "http://kusindras-macbook.local:3001"],
+    credentials: true,
+    exposedHeaders: ["set-cookie"],
+}));
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(body_parser_1.default.json());
 app.disable("x-powered-by");
@@ -45,7 +49,7 @@ rootRoute
 var specs = (0, swagger_jsdoc_1.default)(swaggerOption_1.default);
 app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(specs));
 app.use(function (req, res) {
-    res.json({
+    res.status(404).json({
         status: 404,
         message: "error_not_found",
     });

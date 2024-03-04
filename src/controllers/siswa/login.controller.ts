@@ -41,6 +41,8 @@ export const Login = async (req: LoginReqProps, res: Response) => {
     res.cookie("token", token, {
       httpOnly: true,
       maxAge: 15 * 24 * 60 * 60 * 1000, //expired dalam 15 hari
+      secure: true,
+      sameSite: "none",
     });
     res.json(
       Success("Login success", {

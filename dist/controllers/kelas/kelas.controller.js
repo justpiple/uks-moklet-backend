@@ -50,7 +50,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DeleteKelas = exports.UpdateKelas = exports.CreateKelas = exports.FindKelasById = exports.GetAllKelas = void 0;
 var kelas_query_1 = require("@/utils/queries/kelas.query");
 var apiResponse_1 = require("@/utils/apiResponse");
-var uuidv7_1 = require("uuidv7");
 // FIND KELAS BY ID
 var GetAllKelas = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var response, error_1;
@@ -70,7 +69,7 @@ var GetAllKelas = function (req, res) { return __awaiter(void 0, void 0, void 0,
             case 2:
                 error_1 = _a.sent();
                 console.log(error_1);
-                res.status(400).json((0, apiResponse_1.BadRequest)(JSON.stringify(error_1)));
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -87,7 +86,7 @@ var FindKelasById = function (req, res) { return __awaiter(void 0, void 0, void 
             case 1:
                 response = _a.sent();
                 if (response == null) {
-                    return [2 /*return*/, res.status(400).json((0, apiResponse_1.BadRequest)("Cannot find any kelas"))];
+                    return [2 /*return*/, res.status(404).json((0, apiResponse_1.BadRequest)("Cannot find any kelas"))];
                 }
                 return [2 /*return*/, res
                         .status(200)
@@ -95,7 +94,7 @@ var FindKelasById = function (req, res) { return __awaiter(void 0, void 0, void 
             case 2:
                 error_2 = _a.sent();
                 console.log(error_2);
-                res.status(400).json((0, apiResponse_1.BadRequest)(JSON.stringify(error_2)));
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -109,7 +108,9 @@ var CreateKelas = function (req, res) { return __awaiter(void 0, void 0, void 0,
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                data = __assign(__assign({}, req.body), { id: (0, uuidv7_1.uuidv7)() });
+                data = __assign(__assign({}, req.body), { id: (req.body.tingkat +
+                        req.body.nama_kelas[0] +
+                        req.body.nama_kelas.replace(/\D/g, "")).toLowerCase() });
                 return [4 /*yield*/, (0, kelas_query_1.createKelas)(data)];
             case 1:
                 response = _a.sent();
@@ -122,7 +123,7 @@ var CreateKelas = function (req, res) { return __awaiter(void 0, void 0, void 0,
             case 2:
                 error_3 = _a.sent();
                 console.log(error_3);
-                res.status(400).json((0, apiResponse_1.BadRequest)(JSON.stringify(error_3)));
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -146,7 +147,7 @@ var UpdateKelas = function (req, res) { return __awaiter(void 0, void 0, void 0,
             case 2:
                 error_4 = _a.sent();
                 console.log(error_4);
-                res.status(400).json((0, apiResponse_1.BadRequest)(JSON.stringify(error_4)));
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -170,7 +171,7 @@ var DeleteKelas = function (req, res) { return __awaiter(void 0, void 0, void 0,
             case 2:
                 error_5 = _a.sent();
                 console.log(error_5);
-                res.status(400).json((0, apiResponse_1.BadRequest)(JSON.stringify(error_5)));
+                res.status(500).json((0, apiResponse_1.InternalServerError)());
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

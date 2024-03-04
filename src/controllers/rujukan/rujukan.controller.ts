@@ -7,7 +7,13 @@ import {
 } from "@/utils/queries/rujukan.query";
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
-import { Success, BadRequest, CreatedSuccessfully } from "@/utils/apiResponse";
+import {
+  Success,
+  BadRequest,
+  CreatedSuccessfully,
+  InternalServerError,
+  NotFound,
+} from "@/utils/apiResponse";
 import { uuidv7 } from "uuidv7";
 
 interface RujukanReqProps extends Request {
@@ -18,14 +24,14 @@ export const GetAllRujukan = async (req: Request, res: Response) => {
   try {
     const response = await getAllRujukan();
     if (response == null) {
-      return res.status(400).json(BadRequest("Cannot find any register"));
+      return res.status(404).json(NotFound("Cannot find any register"));
     }
     return res
       .status(200)
       .json(Success("Register loaded successfully", { data: response }));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 // FIND RUJUKAN BY ID
@@ -33,14 +39,14 @@ export const FindRujukanById = async (req: Request, res: Response) => {
   try {
     const response = await findRujukanById(req.params.id);
     if (response == null) {
-      return res.status(400).json(BadRequest("Cannot find any register"));
+      return res.status(404).json(NotFound("Cannot find any register"));
     }
     return res
       .status(200)
       .json(Success("Register loaded successfully", { data: response }));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 
@@ -62,7 +68,7 @@ export const CreateRujukan = async (req: RujukanReqProps, res: Response) => {
       );
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 
@@ -76,7 +82,7 @@ export const UpdateRujukan = async (req: RujukanReqProps, res: Response) => {
     return res.status(200).json(Success("Rujukan updated successfully"));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 
@@ -85,11 +91,11 @@ export const DeleteRujukan = async (req: Request, res: Response) => {
   try {
     const response = await deleteRujukan(req.params.id);
     if (!response) {
-      return res.status(400).json(BadRequest("Cannot find any rujukan"));
+      return res.status(404).json(NotFound("Cannot find any rujukan"));
     }
     return res.status(200).json(Success("Rujukan deleted successfully"));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };

@@ -6,8 +6,12 @@ export function CreatedSuccessfully(message: string, otherResponses?: Object) {
   return { status: 201, message, success: true, ...otherResponses };
 }
 
-export function InternalServerError() {
-  return { message: "Internal server error", status: 500, success: false };
+export function InternalServerError(message?: string) {
+  return {
+    message: message || "Internal server error",
+    status: 500,
+    success: false,
+  };
 }
 
 export function Forbidden(message: string) {

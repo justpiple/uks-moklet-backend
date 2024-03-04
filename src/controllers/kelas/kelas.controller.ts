@@ -7,8 +7,13 @@ import {
 } from "@/utils/queries/kelas.query";
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
-import { Success, BadRequest, CreatedSuccessfully } from "@/utils/apiResponse";
-import { uuidv7 } from "uuidv7";
+import {
+  Success,
+  BadRequest,
+  CreatedSuccessfully,
+  InternalServerError,
+} from "@/utils/apiResponse";
+import { randomString } from "@/utils/func";
 
 interface KelasReqProps extends Request {
   body: Prisma.KelasUncheckedCreateInput;
@@ -26,7 +31,7 @@ export const GetAllKelas = async (req: Request, res: Response) => {
       .json(Success("Kelas loaded successfully", { data: response }));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 
@@ -34,14 +39,14 @@ export const FindKelasById = async (req: Request, res: Response) => {
   try {
     const response = await findKelasById(req.params.id);
     if (response == null) {
-      return res.status(400).json(BadRequest("Cannot find any kelas"));
+      return res.status(404).json(BadRequest("Cannot find any kelas"));
     }
     return res
       .status(200)
       .json(Success("Kelas loaded successfully", { data: response }));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 
@@ -50,7 +55,11 @@ export const CreateKelas = async (req: KelasReqProps, res: Response) => {
   try {
     const data: Prisma.KelasUncheckedCreateInput = {
       ...req.body,
-      id: uuidv7(),
+      id: (
+        req.body.tingkat +
+        req.body.nama_kelas[0] +
+        req.body.nama_kelas.replace(/\D/g, "")
+      ).toLowerCase(),
     };
     const response = await createKelas(data);
     if (!response) {
@@ -63,7 +72,7 @@ export const CreateKelas = async (req: KelasReqProps, res: Response) => {
       );
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 
@@ -77,7 +86,7 @@ export const UpdateKelas = async (req: KelasReqProps, res: Response) => {
     return res.status(200).json(Success("Kelas updated successfully"));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 
@@ -91,6 +100,6 @@ export const DeleteKelas = async (req: Request, res: Response) => {
     return res.status(200).json(Success("Kelas deleted successfully"));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };

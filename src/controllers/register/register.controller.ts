@@ -6,7 +6,13 @@ import {
   getAllRegister,
 } from "@/utils/queries/register/register.query";
 import { Request, Response } from "express";
-import { BadRequest, CreatedSuccessfully, Success } from "@/utils/apiResponse";
+import {
+  BadRequest,
+  CreatedSuccessfully,
+  InternalServerError,
+  NotFound,
+  Success,
+} from "@/utils/apiResponse";
 import { uuidv7 } from "uuidv7";
 import { registerWithDetail } from "@/types/prismaRelation";
 import { Prisma } from "@prisma/client";
@@ -20,14 +26,14 @@ export const GetAllRegister = async (req: Request, res: Response) => {
   try {
     const response = await getAllRegister();
     if (response == null) {
-      return res.status(400).json(BadRequest("Cannot find any register"));
+      return res.status(404).json(NotFound("Cannot find any register"));
     }
     return res
       .status(200)
       .json(Success("Register loaded successfully", { data: response }));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 // FIND REGISTER BY ID
@@ -37,14 +43,14 @@ export const FindRegisterById = async (req: Request, res: Response) => {
       req.params.id
     );
     if (response == null) {
-      return res.status(400).json(BadRequest("Cannot find any register"));
+      return res.status(404).json(NotFound("Cannot find any register"));
     }
     return res
       .status(200)
       .json(Success("Register loaded successfully", { data: response }));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 
@@ -67,7 +73,7 @@ export const CreateRegister = async (req: RegisterReqProps, res: Response) => {
       );
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 
@@ -84,7 +90,7 @@ export const UpdateRegister = async (req: RegisterReqProps, res: Response) => {
     return res.status(200).json(Success("Register updated successfully"));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };
 
@@ -93,12 +99,12 @@ export const DeleteRegister = async (req: Request, res: Response) => {
   try {
     const response = await deleteRegister(req.params.id);
     if (!response) {
-      return res.status(400).json(BadRequest("Cannot find any register"));
+      return res.status(404).json(NotFound("Cannot find any register"));
     }
 
     return res.status(200).json(Success("Register deleted successfully"));
   } catch (error) {
     console.log(error);
-    res.status(400).json(BadRequest(JSON.stringify(error)));
+    res.status(500).json(InternalServerError());
   }
 };

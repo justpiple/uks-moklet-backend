@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rujukan_controller_1 = require("@/controllers/rujukan/rujukan.controller");
+var auth_1 = require("@/middleware/auth");
 var validateError_1 = require("@/middleware/validateError");
 var express_1 = require("express");
 var express_validator_1 = require("express-validator");
@@ -13,6 +14,7 @@ var postRujukanValidate = [
     validateError_1.validateError,
 ];
 // MAIN ROUTRER
+router.use((0, auth_1.auth)("ADMIN"));
 router.get("/", rujukan_controller_1.GetAllRujukan);
 router.get("/:id", rujukan_controller_1.FindRujukanById);
 router.post("/", postRujukanValidate, rujukan_controller_1.CreateRujukan);
