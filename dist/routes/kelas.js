@@ -16,6 +16,7 @@ var postKelasValidate = [
 router.use((0, auth_1.auth)("ADMIN", "WALAS"));
 router.get("/", kelas_controller_1.GetAllKelas);
 router.get("/:id", kelas_controller_1.FindKelasById);
+router.use((0, auth_1.auth)("ADMIN"));
 router.post("/", postKelasValidate, kelas_controller_1.CreateKelas);
 router.put("/:id", postKelasValidate, kelas_controller_1.UpdateKelas);
 router.delete("/:id", kelas_controller_1.DeleteKelas);

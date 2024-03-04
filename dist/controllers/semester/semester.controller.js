@@ -50,7 +50,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DeleteSemester = exports.UpdateSemester = exports.CreateSemester = exports.FindSemesterById = exports.GetAllSemester = void 0;
 var semester_query_1 = require("@/utils/queries/semester.query");
 var apiResponse_1 = require("@/utils/apiResponse");
-var uuidv7_1 = require("uuidv7");
+var func_1 = require("@/utils/func");
 var GetAllSemester = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var response, error_1;
     return __generator(this, function (_a) {
@@ -109,7 +109,7 @@ var CreateSemester = function (req, res) { return __awaiter(void 0, void 0, void
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                data = __assign(__assign({}, req.body), { id: (0, uuidv7_1.uuidv7)() });
+                data = __assign(__assign({}, req.body), { id: (0, func_1.randomString)(11), tgl_awal: new Date(req.body.tgl_awal).toISOString(), tgl_akhir: new Date(req.body.tgl_akhir).toISOString() });
                 return [4 /*yield*/, (0, semester_query_1.createSemester)(data)];
             case 1:
                 response = _a.sent();
@@ -131,12 +131,13 @@ var CreateSemester = function (req, res) { return __awaiter(void 0, void 0, void
 exports.CreateSemester = CreateSemester;
 // UPDATE EXISTING SEMESTER
 var UpdateSemester = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var response, error_4;
+    var data, response, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, (0, semester_query_1.updateSemester)(req.params.id, req.body)];
+                data = __assign(__assign({}, req.body), { tgl_awal: new Date(req.body.tgl_awal).toISOString(), tgl_akhir: new Date(req.body.tgl_akhir).toISOString() });
+                return [4 /*yield*/, (0, semester_query_1.updateSemester)(req.params.id, data)];
             case 1:
                 response = _a.sent();
                 if (!response) {

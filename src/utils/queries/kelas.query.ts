@@ -9,7 +9,9 @@ export const findKelasById = async (id: string) => {
 
 // CREATE NEW KELAS
 export const getAllKelas = async () => {
-  const response = await prisma.kelas.findMany({});
+  const response = await prisma.kelas.findMany({
+    include: { _count: { select: { rombel: true } } },
+  });
   return response;
 };
 

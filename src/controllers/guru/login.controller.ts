@@ -21,7 +21,7 @@ export const Login = async (req: LoginReqProps, res: Response) => {
 
     //Jika password dan confirm password tidak cocok
     if (!match) {
-      return res.status(400).json(Unauthorize("Email atau Password salah!"));
+      return res.status(401).json(Unauthorize("Email atau Password salah!"));
     }
 
     const id_admin = user?.id;
@@ -42,6 +42,8 @@ export const Login = async (req: LoginReqProps, res: Response) => {
     res.cookie("token", token, {
       httpOnly: true,
       maxAge: 15 * 24 * 60 * 60 * 1000,
+      secure: true,
+      sameSite: "none",
     });
     res.json(
       Success("Login success", {

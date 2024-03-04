@@ -47,25 +47,26 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DeleteKelas = exports.UpdateKelas = exports.CreateKelas = exports.FindKelasById = exports.GetAllKelas = void 0;
-var kelas_query_1 = require("@/utils/queries/kelas.query");
+exports.DeleteRombel = exports.UpdateRombel = exports.CreateRombel = exports.FindRombelById = exports.GetAllRombel = void 0;
 var apiResponse_1 = require("@/utils/apiResponse");
-// FIND KELAS BY ID
-var GetAllKelas = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var func_1 = require("@/utils/func");
+var rombel_query_1 = require("@/utils/queries/rombel.query");
+// FIND ROMBEL BY ID
+var GetAllRombel = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var response, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, (0, kelas_query_1.getAllKelas)()];
+                return [4 /*yield*/, (0, rombel_query_1.getAllRombel)()];
             case 1:
                 response = _a.sent();
                 if (response == null) {
-                    return [2 /*return*/, res.status(400).json((0, apiResponse_1.BadRequest)("Cannot find any kelas"))];
+                    return [2 /*return*/, res.status(404).json((0, apiResponse_1.NotFound)("Cannot find any rombel"))];
                 }
                 return [2 /*return*/, res
                         .status(200)
-                        .json((0, apiResponse_1.Success)("Kelas loaded successfully", { data: response }))];
+                        .json((0, apiResponse_1.Success)("Rombel loaded successfully", { data: response }))];
             case 2:
                 error_1 = _a.sent();
                 console.log(error_1);
@@ -75,22 +76,22 @@ var GetAllKelas = function (req, res) { return __awaiter(void 0, void 0, void 0,
         }
     });
 }); };
-exports.GetAllKelas = GetAllKelas;
-var FindKelasById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+exports.GetAllRombel = GetAllRombel;
+var FindRombelById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var response, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, (0, kelas_query_1.findKelasById)(req.params.id)];
+                return [4 /*yield*/, (0, rombel_query_1.findRombelById)(req.params.id)];
             case 1:
                 response = _a.sent();
                 if (response == null) {
-                    return [2 /*return*/, res.status(404).json((0, apiResponse_1.BadRequest)("Cannot find any kelas"))];
+                    return [2 /*return*/, res.status(400).json((0, apiResponse_1.BadRequest)("Cannot find any kelas"))];
                 }
                 return [2 /*return*/, res
                         .status(200)
-                        .json((0, apiResponse_1.Success)("Kelas loaded successfully", { data: response }))];
+                        .json((0, apiResponse_1.Success)("Rombel loaded successfully", { data: response }))];
             case 2:
                 error_2 = _a.sent();
                 console.log(error_2);
@@ -100,26 +101,24 @@ var FindKelasById = function (req, res) { return __awaiter(void 0, void 0, void 
         }
     });
 }); };
-exports.FindKelasById = FindKelasById;
-// CREATE NEW KELAS
-var CreateKelas = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+exports.FindRombelById = FindRombelById;
+// CREATE NEW ROMBEL
+var CreateRombel = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var data, response, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                data = __assign(__assign({}, req.body), { id: (req.body.tingkat +
-                        req.body.nama_kelas[0] +
-                        req.body.nama_kelas.replace(/\D/g, "")).toLowerCase() });
-                return [4 /*yield*/, (0, kelas_query_1.createKelas)(data)];
+                data = __assign(__assign({}, req.body), { id: (0, func_1.randomString)(11) });
+                return [4 /*yield*/, (0, rombel_query_1.createRombel)(data)];
             case 1:
                 response = _a.sent();
                 if (!response) {
-                    return [2 /*return*/, res.status(400).json((0, apiResponse_1.BadRequest)("Failed creating kelas"))];
+                    return [2 /*return*/, res.status(400).json((0, apiResponse_1.BadRequest)("Failed creating rombel"))];
                 }
                 return [2 /*return*/, res
                         .status(200)
-                        .json((0, apiResponse_1.CreatedSuccessfully)("Kelas created successfully", { data: response }))];
+                        .json((0, apiResponse_1.CreatedSuccessfully)("Rombel created successfully", { data: response }))];
             case 2:
                 error_3 = _a.sent();
                 console.log(error_3);
@@ -129,21 +128,21 @@ var CreateKelas = function (req, res) { return __awaiter(void 0, void 0, void 0,
         }
     });
 }); };
-exports.CreateKelas = CreateKelas;
-// UPDATE EXISTING KELAS
-var UpdateKelas = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+exports.CreateRombel = CreateRombel;
+// UPDATE EXISTING ROMBEL
+var UpdateRombel = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var response, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, (0, kelas_query_1.updateKelas)(req.params.id, req.body)];
+                return [4 /*yield*/, (0, rombel_query_1.updateRombel)(req.params.id, req.body)];
             case 1:
                 response = _a.sent();
                 if (!response) {
-                    return [2 /*return*/, res.status(400).json((0, apiResponse_1.BadRequest)("Failed updating kelas"))];
+                    return [2 /*return*/, res.status(400).json((0, apiResponse_1.BadRequest)("Failed updating rombel"))];
                 }
-                return [2 /*return*/, res.status(200).json((0, apiResponse_1.Success)("Kelas updated successfully"))];
+                return [2 /*return*/, res.status(200).json((0, apiResponse_1.Success)("Rombel updated successfully"))];
             case 2:
                 error_4 = _a.sent();
                 console.log(error_4);
@@ -153,21 +152,21 @@ var UpdateKelas = function (req, res) { return __awaiter(void 0, void 0, void 0,
         }
     });
 }); };
-exports.UpdateKelas = UpdateKelas;
-// DELETE KELAS
-var DeleteKelas = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+exports.UpdateRombel = UpdateRombel;
+// DELETE ROMBEL
+var DeleteRombel = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var response, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, (0, kelas_query_1.deleteKelas)(req.params.id)];
+                return [4 /*yield*/, (0, rombel_query_1.deleteRombel)(req.params.id)];
             case 1:
                 response = _a.sent();
                 if (!response) {
-                    return [2 /*return*/, res.status(400).json((0, apiResponse_1.BadRequest)("Cannot find any kelas"))];
+                    return [2 /*return*/, res.status(400).json((0, apiResponse_1.BadRequest)("Cannot find any rombel"))];
                 }
-                return [2 /*return*/, res.status(200).json((0, apiResponse_1.Success)("Kelas deleted successfully"))];
+                return [2 /*return*/, res.status(200).json((0, apiResponse_1.Success)("Rombel deleted successfully"))];
             case 2:
                 error_5 = _a.sent();
                 console.log(error_5);
@@ -177,5 +176,5 @@ var DeleteKelas = function (req, res) { return __awaiter(void 0, void 0, void 0,
         }
     });
 }); };
-exports.DeleteKelas = DeleteKelas;
-//# sourceMappingURL=kelas.controller.js.map
+exports.DeleteRombel = DeleteRombel;
+//# sourceMappingURL=rombel.controller.js.map

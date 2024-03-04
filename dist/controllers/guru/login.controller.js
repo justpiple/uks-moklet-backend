@@ -57,7 +57,7 @@ var Login = function (req, res) { return __awaiter(void 0, void 0, void 0, funct
                 match = (user === null || user === void 0 ? void 0 : user.password) == (0, md5_1.default)(req.body.password);
                 //Jika password dan confirm password tidak cocok
                 if (!match) {
-                    return [2 /*return*/, res.status(400).json((0, apiResponse_1.Unauthorize)("Email atau Password salah!"))];
+                    return [2 /*return*/, res.status(401).json((0, apiResponse_1.Unauthorize)("Email atau Password salah!"))];
                 }
                 id_admin = user === null || user === void 0 ? void 0 : user.id;
                 email = user === null || user === void 0 ? void 0 : user.email;
@@ -70,6 +70,8 @@ var Login = function (req, res) { return __awaiter(void 0, void 0, void 0, funct
                 res.cookie("token", token, {
                     httpOnly: true,
                     maxAge: 15 * 24 * 60 * 60 * 1000,
+                    secure: true,
+                    sameSite: "none",
                 });
                 res.json((0, apiResponse_1.Success)("Login success", {
                     data: {

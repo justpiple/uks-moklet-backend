@@ -15,6 +15,7 @@ import {
   InternalServerError,
 } from "@/utils/apiResponse";
 import { uuidv7 } from "uuidv7";
+import { randomString } from "@/utils/func";
 
 interface SemesterReqProps extends Request {
   body: Prisma.SemesterUncheckedCreateInput;
@@ -55,7 +56,9 @@ export const CreateSemester = async (req: SemesterReqProps, res: Response) => {
   try {
     const data: Prisma.SemesterUncheckedCreateInput = {
       ...req.body,
-      id: uuidv7(),
+      id: randomString(11),
+      tgl_awal: new Date(req.body.tgl_awal).toISOString(),
+      tgl_akhir: new Date(req.body.tgl_akhir).toISOString(),
     };
     const response = await createSemester(data);
     if (!response) {
@@ -75,7 +78,12 @@ export const CreateSemester = async (req: SemesterReqProps, res: Response) => {
 // UPDATE EXISTING SEMESTER
 export const UpdateSemester = async (req: SemesterReqProps, res: Response) => {
   try {
-    const response = await updateSemester(req.params.id, req.body);
+    const data: Prisma.SemesterUncheckedCreateInput = {
+      ...req.body,
+      tgl_awal: new Date(req.body.tgl_awal).toISOString(),
+      tgl_akhir: new Date(req.body.tgl_akhir).toISOString(),
+    };
+    const response = await updateSemester(req.params.id, data);
     if (!response) {
       return res.status(404).json(NotFound("Failed updating semester"));
     }

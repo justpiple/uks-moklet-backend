@@ -3,6 +3,7 @@ import {
   createGuru,
   updateGuru,
   deleteGuru,
+  getAllGuru,
 } from "@/utils/queries/guru.query";
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
@@ -18,6 +19,17 @@ interface guruReqProps extends Request {
   body: Prisma.GuruUncheckedCreateInput;
 }
 
+export const GetAllGuru = async (req: Request, res: Response) => {
+  try {
+    const response = await getAllGuru();
+    return res
+      .status(200)
+      .json(Success("Data loaded successfully", { data: response }));
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(InternalServerError());
+  }
+};
 // FIND GURU BY ID
 export const FindGuruById = async (req: Request, res: Response) => {
   try {

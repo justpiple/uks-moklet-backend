@@ -39,56 +39,77 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Login = void 0;
-var md5_1 = __importDefault(require("md5"));
-var siswa_query_1 = require("@/utils/queries/siswa.query");
-var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-var apiResponse_1 = require("@/utils/apiResponse");
-// Fungsi login
-var Login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, match, id_siswa, email, name, token, error_1;
+exports.deleteRombel = exports.updateRombel = exports.createRombel = exports.getAllRombel = exports.findRombelById = void 0;
+var prisma_1 = __importDefault(require("@/lib/prisma"));
+// FIND ROMBEL BY ID
+var findRombelById = function (id) { return __awaiter(void 0, void 0, void 0, function () {
+    var response;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, (0, siswa_query_1.findSiswaByEmail)(req.body.email)];
+            case 0: return [4 /*yield*/, prisma_1.default.rombel.findUnique({ where: { id: id } })];
             case 1:
-                user = _a.sent();
-                match = (user === null || user === void 0 ? void 0 : user.password) == (0, md5_1.default)(req.body.password);
-                //Jika password dan confirm password tidak cocok
-                if (!match) {
-                    return [2 /*return*/, res.status(401).json((0, apiResponse_1.Unauthorize)("Email atau Password salah!"))];
-                }
-                id_siswa = user === null || user === void 0 ? void 0 : user.id;
-                email = user === null || user === void 0 ? void 0 : user.email;
-                name = user === null || user === void 0 ? void 0 : user.name;
-                token = jsonwebtoken_1.default.sign({ id: id_siswa, name: name, email: email, role: "SISWA" }, process.env.JWT_SECRET, {
-                    expiresIn: "15d",
-                });
-                // Membuat http cookie yang dikirimkan ke sisi client
-                res.cookie("token", token, {
-                    httpOnly: true,
-                    maxAge: 15 * 24 * 60 * 60 * 1000, //expired dalam 15 hari
-                    secure: true,
-                    sameSite: "none",
-                });
-                res.json((0, apiResponse_1.Success)("Login success", {
-                    data: {
-                        token: token,
-                        id: id_siswa,
-                        name: name,
-                        akses: "SISWA",
-                    },
-                }));
-                return [3 /*break*/, 3];
-            case 2:
-                error_1 = _a.sent();
-                console.log(error_1);
-                res.status(404).json({ error: 404 });
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                response = _a.sent();
+                return [2 /*return*/, response];
         }
     });
 }); };
-exports.Login = Login;
-//# sourceMappingURL=login.controller.js.map
+exports.findRombelById = findRombelById;
+// CREATE NEW ROMBEL
+var getAllRombel = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var response;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, prisma_1.default.rombel.findMany({
+                    include: {
+                        _count: { select: { siswa: true } },
+                        guru: { select: { name: true, id: true } },
+                        semester: { select: { tahun_ajaran: true, semester: true } },
+                        kelas: { select: { tingkat: true, nama_kelas: true } },
+                    },
+                })];
+            case 1:
+                response = _a.sent();
+                return [2 /*return*/, response];
+        }
+    });
+}); };
+exports.getAllRombel = getAllRombel;
+var createRombel = function (data) { return __awaiter(void 0, void 0, void 0, function () {
+    var response;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, prisma_1.default.rombel.create({ data: data })];
+            case 1:
+                response = _a.sent();
+                return [2 /*return*/, response];
+        }
+    });
+}); };
+exports.createRombel = createRombel;
+// UPDATE EXISTING DATA
+var updateRombel = function (id, data) { return __awaiter(void 0, void 0, void 0, function () {
+    var response;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, prisma_1.default.rombel.update({ where: { id: id }, data: data })];
+            case 1:
+                response = _a.sent();
+                return [2 /*return*/, response];
+        }
+    });
+}); };
+exports.updateRombel = updateRombel;
+// DELETE ROMBEL
+var deleteRombel = function (id) { return __awaiter(void 0, void 0, void 0, function () {
+    var response;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, prisma_1.default.rombel.delete({ where: { id: id } })];
+            case 1:
+                response = _a.sent();
+                return [2 /*return*/, response];
+        }
+    });
+}); };
+exports.deleteRombel = deleteRombel;
+//# sourceMappingURL=rombel.query.js.map

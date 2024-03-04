@@ -20,14 +20,14 @@ var auth = function () {
             }
             var JWTSecret = process.env.JWT_SECRET;
             var decoded = jsonwebtoken_1.default.verify(token, JWTSecret);
-            if (!akses.includes(decoded.role)) {
+            if (!akses.includes(decoded.role) && !akses.includes("ALL")) {
                 return res.status(401).json((0, apiResponse_1.Unauthorize)("Unauthorized"));
             }
             req.token = decoded;
             next();
         }
         catch (_b) {
-            return res.status(500).json((0, apiResponse_1.InternalServerError)("Authentication error"));
+            return res.status(401).json((0, apiResponse_1.Unauthorize)("Unauthorized"));
         }
     };
 };
