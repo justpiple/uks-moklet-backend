@@ -46,7 +46,9 @@ function getAllGuru() {
         var user;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, prisma_1.default.guru.findMany({ select: { id: true, name: true } })];
+                case 0: return [4 /*yield*/, prisma_1.default.guru.findMany({
+                        select: { id: true, name: true, akses: true, email: true },
+                    })];
                 case 1:
                     user = _a.sent();
                     return [2 /*return*/, user];
@@ -78,6 +80,7 @@ function findGuruById(id) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, prisma_1.default.guru.findUnique({
                         where: { id: id },
+                        select: { id: true, email: true, name: true, akses: true },
                     })];
                 case 1:
                     user = _a.sent();

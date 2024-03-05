@@ -7,6 +7,7 @@ export async function getAllSiswa() {
       name: true,
       id: true,
       email: true,
+      gender: true,
       rombel: {
         select: {
           rombel: {

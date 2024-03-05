@@ -2,7 +2,7 @@ import md5 from "md5";
 import { findGuruByEmail } from "@/utils/queries/guru.query";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { Success, Unauthorize } from "@/utils/apiResponse";
+import { InternalServerError, Success, Unauthorize } from "@/utils/apiResponse";
 
 interface LoginReqProps extends Request {
   body: {
@@ -57,6 +57,8 @@ export const Login = async (req: LoginReqProps, res: Response) => {
     );
   } catch (error) {
     console.log(error);
-    res.status(404).json({ error: 404 });
+    return res
+      .status(500)
+      .json(InternalServerError("Email atau Password salah!"));
   }
 };

@@ -1,4 +1,10 @@
-import { GetAllGuru } from "@/controllers/guru/guru.controller";
+import {
+  CreateGuru,
+  DeleteGuru,
+  FindGuruById,
+  GetAllGuru,
+  UpdateGuru,
+} from "@/controllers/guru/guru.controller";
 import { Login } from "@/controllers/guru/login.controller";
 import { auth } from "@/middleware/auth";
 import { validateError } from "@/middleware/validateError";
@@ -15,5 +21,12 @@ var loginValidate = [
 
 router.post("/login", loginValidate, Login);
 router.get("/", auth("ADMIN", "WALAS"), GetAllGuru, Login);
+
+router.use(auth("ADMIN"));
+router.get("/", GetAllGuru);
+router.post("/", CreateGuru);
+router.get("/:id", FindGuruById);
+router.put("/:id", UpdateGuru);
+router.delete("/:id", DeleteGuru);
 
 export default router;

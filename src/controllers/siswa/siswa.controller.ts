@@ -48,15 +48,18 @@ export const SearchSiswa = async (req: Request, res: Response) => {
     res.status(500).json(InternalServerError());
   }
 };
+
 export const FindSiswaById = async (req: Request, res: Response) => {
   try {
     const response = await findSiswaById(req.params.id);
     if (response == null) {
       return res.status(400).json(BadRequest("Cannot find any siswa"));
     }
-    return res
-      .status(200)
-      .json(Success("Siswa loaded successfully", { data: response }));
+    return res.status(200).json(
+      Success("Siswa loaded successfully", {
+        data: { ...response, password: undefined },
+      })
+    );
   } catch (error) {
     console.log(error);
     res.status(500).json(InternalServerError());

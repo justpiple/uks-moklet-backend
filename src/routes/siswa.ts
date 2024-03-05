@@ -1,5 +1,12 @@
 import { Login } from "@/controllers/siswa/login.controller";
-import { GetAllSiswa, SearchSiswa } from "@/controllers/siswa/siswa.controller";
+import {
+  CreateSiswa,
+  DeleteSiswa,
+  FindSiswaById,
+  GetAllSiswa,
+  SearchSiswa,
+  UpdateSiswa,
+} from "@/controllers/siswa/siswa.controller";
 import { auth } from "@/middleware/auth";
 import { validateError } from "@/middleware/validateError";
 import { Router } from "express";
@@ -13,7 +20,13 @@ var loginValidate = [
   validateError,
 ];
 router.post("/login", loginValidate, Login);
-router.get("/", auth("ADMIN"), GetAllSiswa);
 router.get("/search", auth("ALL"), SearchSiswa);
+
+router.use(auth("ADMIN"));
+router.get("/", GetAllSiswa);
+router.post("/", CreateSiswa);
+router.get("/:id", FindSiswaById);
+router.put("/:id", UpdateSiswa);
+router.delete("/:id", DeleteSiswa);
 
 export default router;
