@@ -110,9 +110,9 @@ var FindSiswaById = function (req, res) { return __awaiter(void 0, void 0, void 
                 if (response == null) {
                     return [2 /*return*/, res.status(400).json((0, apiResponse_1.BadRequest)("Cannot find any siswa"))];
                 }
-                return [2 /*return*/, res
-                        .status(200)
-                        .json((0, apiResponse_1.Success)("Siswa loaded successfully", { data: response }))];
+                return [2 /*return*/, res.status(200).json((0, apiResponse_1.Success)("Siswa loaded successfully", {
+                        data: __assign(__assign({}, response), { password: undefined }),
+                    }))];
             case 2:
                 error_3 = _a.sent();
                 console.log(error_3);

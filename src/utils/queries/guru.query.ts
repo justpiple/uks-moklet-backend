@@ -2,7 +2,9 @@ import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
 export async function getAllGuru() {
-  const user = await prisma.guru.findMany({ select: { id: true, name: true } });
+  const user = await prisma.guru.findMany({
+    select: { id: true, name: true, akses: true, email: true },
+  });
   return user;
 }
 
@@ -16,16 +18,20 @@ export async function findGuruByEmail(email: string) {
 export async function findGuruById(id: string) {
   const user = await prisma.guru.findUnique({
     where: { id: id },
+    select: { id: true, email: true, name: true, akses: true },
   });
   return user;
 }
 
-export async function createGuru(data: Prisma.GuruCreateInput) {
+export async function createGuru(data: Prisma.GuruUncheckedCreateInput) {
   const create = await prisma.guru.create({ data });
   return create;
 }
 
-export async function updateGuru(id: string, data: Prisma.GuruUpdateInput) {
+export async function updateGuru(
+  id: string,
+  data: Prisma.GuruUncheckedUpdateInput
+) {
   const update = await prisma.guru.update({
     where: { id },
     data,

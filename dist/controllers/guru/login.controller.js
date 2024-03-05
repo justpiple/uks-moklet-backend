@@ -85,8 +85,9 @@ var Login = function (req, res) { return __awaiter(void 0, void 0, void 0, funct
             case 2:
                 error_1 = _a.sent();
                 console.log(error_1);
-                res.status(404).json({ error: 404 });
-                return [3 /*break*/, 3];
+                return [2 /*return*/, res
+                        .status(500)
+                        .json((0, apiResponse_1.InternalServerError)("Email atau Password salah!"))];
             case 3: return [2 /*return*/];
         }
     });
