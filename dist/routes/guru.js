@@ -13,7 +13,6 @@ var loginValidate = [
     validateError_1.validateError,
 ];
 router.post("/login", loginValidate, login_controller_1.Login);
-router.get("/", (0, auth_1.auth)("ADMIN", "WALAS"), guru_controller_1.GetAllGuru, login_controller_1.Login);
 router.use((0, auth_1.auth)("ADMIN"));
 router.get("/", guru_controller_1.GetAllGuru);
 router.post("/", guru_controller_1.CreateGuru);

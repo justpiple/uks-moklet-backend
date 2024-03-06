@@ -15,7 +15,11 @@ const PORT = process.env.PORT || 3000;
 
 app.use(
   cors({
-    origin: ["http://localhost:3001", "http://kusindras-macbook.local:3001"],
+    origin: [
+      "http://localhost:3001",
+      "http://kusindras-macbook.local:3001",
+      "http://localhost:3000",
+    ],
     credentials: true,
     exposedHeaders: ["set-cookie"],
   })
