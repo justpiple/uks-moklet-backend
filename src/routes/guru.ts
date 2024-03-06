@@ -20,7 +20,6 @@ var loginValidate = [
 ];
 
 router.post("/login", loginValidate, Login);
-router.get("/", auth("ADMIN", "WALAS"), GetAllGuru, Login);
 
 router.use(auth("ADMIN"));
 router.get("/", GetAllGuru);
