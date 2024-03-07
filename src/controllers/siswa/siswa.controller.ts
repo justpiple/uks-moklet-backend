@@ -5,6 +5,7 @@ import {
   deleteSiswa,
   getAllSiswa,
   searchSiswa,
+  getAllSiswaPagination,
 } from "@/utils/queries/siswa.query";
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
@@ -28,6 +29,19 @@ export const GetAllSiswa = async (req: Request, res: Response) => {
     return res
       .status(200)
       .json(Success("Siswa loaded successfully", { data: response }));
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(InternalServerError());
+  }
+};
+
+export const GetAllSiswaPagination = async (req: Request, res: Response) => {
+  try {
+    const response = await getAllSiswaPagination(
+      parseInt(req.query.page?.toString()!)
+    );
+
+    return res.status(200).json(Success("Siswa loaded successfully", response));
   } catch (error) {
     console.log(error);
     res.status(500).json(InternalServerError());

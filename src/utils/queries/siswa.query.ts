@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
+import { count } from "console";
 
 export async function getAllSiswa() {
   const user = await prisma.siswa.findMany({
@@ -18,6 +19,28 @@ export async function getAllSiswa() {
     },
   });
   return user;
+}
+
+export async function getAllSiswaPagination(page: number = 1) {
+  const countSiswa = await prisma.siswa.count();
+  const user = await prisma.siswa.findMany({
+    take: 35,
+    skip: (page - 1) * 35,
+    select: {
+      name: true,
+      id: true,
+      email: true,
+      gender: true,
+      rombel: {
+        select: {
+          rombel: {
+            select: { kelas: { select: { nama_kelas: true, tingkat: true } } },
+          },
+        },
+      },
+    },
+  });
+  return { data: user, page: (countSiswa - (countSiswa % 35)) / 35 + 1 };
 }
 
 export async function searchSiswa(query: string) {

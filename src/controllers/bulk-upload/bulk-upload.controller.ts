@@ -1,7 +1,12 @@
 import fileUpload, { FileArray, UploadedFile } from "express-fileupload";
 import readXlsxFile from "read-excel-file/node";
 import { Request, Response } from "express";
-import { BadRequest, InternalServerError, Success } from "@/utils/apiResponse";
+import {
+  BadRequest,
+  CreatedSuccessfully,
+  InternalServerError,
+  Success,
+} from "@/utils/apiResponse";
 import md5 from "md5";
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
@@ -43,7 +48,11 @@ export const UploadSiswa = async (req: Request, res: Response) => {
 
   if (!create)
     return res.status(500).json(InternalServerError("Internal server error"));
-  return res.json(
-    Success("Success create " + rows.length + " data", { data: create })
-  );
+  return res
+    .status(201)
+    .json(
+      CreatedSuccessfully("Success create " + rows.length + " data", {
+        data: create,
+      })
+    );
 };

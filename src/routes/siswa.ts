@@ -4,6 +4,7 @@ import {
   DeleteSiswa,
   FindSiswaById,
   GetAllSiswa,
+  GetAllSiswaPagination,
   SearchSiswa,
   UpdateSiswa,
 } from "@/controllers/siswa/siswa.controller";

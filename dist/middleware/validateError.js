@@ -5,7 +5,7 @@ var express_validator_1 = require("express-validator");
 var validateError = function (req, res, next) {
     var errors = (0, express_validator_1.validationResult)(req);
     if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
+        return res.status(422).json({ errors: errors.array(), status: 422 });
     }
     next();
 };

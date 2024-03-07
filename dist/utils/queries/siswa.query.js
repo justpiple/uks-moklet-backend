@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteSiswa = exports.updateSiswa = exports.createSiswa = exports.findSiswaById = exports.findSiswaByEmail = exports.searchSiswa = exports.getAllSiswa = void 0;
+exports.deleteSiswa = exports.updateSiswa = exports.createSiswa = exports.findSiswaById = exports.findSiswaByEmail = exports.searchSiswa = exports.getAllSiswaPagination = exports.getAllSiswa = void 0;
 var prisma_1 = __importDefault(require("@/lib/prisma"));
 function getAllSiswa() {
     return __awaiter(this, void 0, void 0, function () {
@@ -69,6 +69,40 @@ function getAllSiswa() {
     });
 }
 exports.getAllSiswa = getAllSiswa;
+function getAllSiswaPagination(page) {
+    if (page === void 0) { page = 1; }
+    return __awaiter(this, void 0, void 0, function () {
+        var countSiswa, user;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, prisma_1.default.siswa.count()];
+                case 1:
+                    countSiswa = _a.sent();
+                    return [4 /*yield*/, prisma_1.default.siswa.findMany({
+                            take: 35,
+                            skip: (page - 1) * 35,
+                            select: {
+                                name: true,
+                                id: true,
+                                email: true,
+                                gender: true,
+                                rombel: {
+                                    select: {
+                                        rombel: {
+                                            select: { kelas: { select: { nama_kelas: true, tingkat: true } } },
+                                        },
+                                    },
+                                },
+                            },
+                        })];
+                case 2:
+                    user = _a.sent();
+                    return [2 /*return*/, { data: user, page: (countSiswa - (countSiswa % 35)) / 35 + 1 }];
+            }
+        });
+    });
+}
+exports.getAllSiswaPagination = getAllSiswaPagination;
 function searchSiswa(query) {
     return __awaiter(this, void 0, void 0, function () {
         var user;

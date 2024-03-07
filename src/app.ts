@@ -1,5 +1,4 @@
 require("dotenv").config({ path: ".env" });
-import { Prisma, PrismaClient } from "@prisma/client";
 import express from "express";
 import fs from "fs";
 import chalk from "chalk";
@@ -19,6 +18,7 @@ app.use(
       "http://localhost:3001",
       "http://kusindras-macbook.local:3001",
       "http://localhost:3000",
+      "http://macmoklet.local:3001",
     ],
     credentials: true,
     exposedHeaders: ["set-cookie"],

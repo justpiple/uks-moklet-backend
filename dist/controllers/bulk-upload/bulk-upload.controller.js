@@ -97,7 +97,11 @@ var UploadSiswa = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 create = _b.sent();
                 if (!create)
                     return [2 /*return*/, res.status(500).json((0, apiResponse_1.InternalServerError)("Internal server error"))];
-                return [2 /*return*/, res.json((0, apiResponse_1.Success)("Success create " + rows.length + " data", { data: create }))];
+                return [2 /*return*/, res
+                        .status(201)
+                        .json((0, apiResponse_1.CreatedSuccessfully)("Success create " + rows.length + " data", {
+                        data: create,
+                    }))];
         }
     });
 }); };
