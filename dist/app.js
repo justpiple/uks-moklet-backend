@@ -21,6 +21,7 @@ app.use((0, cors_1.default)({
         "http://kusindras-macbook.local:3001",
         "http://localhost:3000",
         "http://macmoklet.local:3001",
+        "https://uks-moklet.benspace.xyz",
     ],
     credentials: true,
     exposedHeaders: ["set-cookie"],
