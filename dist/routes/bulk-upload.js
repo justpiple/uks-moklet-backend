@@ -17,6 +17,7 @@ router.use((0, auth_1.auth)("ADMIN"), (0, express_fileupload_1.default)({
 }), excelFile);
 router.post("/siswa", bulk_upload_controller_1.UploadSiswa);
 router.post("/rombel", bulk_upload_controller_1.UploadRombel);
+router.post("/rombel-siswa", bulk_upload_controller_1.UploadRombelSiswa);
 function excelFile(req, res, next) {
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).json((0, apiResponse_1.BadRequest)("File excel is required."));

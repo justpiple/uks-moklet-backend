@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 import { BadRequest } from "@/utils/apiResponse";
 import {
   UploadRombel,
+  UploadRombelSiswa,
   UploadSiswa,
 } from "@/controllers/bulk-upload/bulk-upload.controller";
 import { unlinkSync } from "fs";
@@ -24,6 +25,7 @@ router.use(
 
 router.post("/siswa", UploadSiswa);
 router.post("/rombel", UploadRombel);
+router.post("/rombel-siswa", UploadRombelSiswa);
 
 function excelFile(req: Request, res: Response, next: NextFunction) {
   if (!req.files || Object.keys(req.files).length === 0) {
