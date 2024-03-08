@@ -50,11 +50,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UploadSiswa = void 0;
+exports.UploadRombelSiswa = exports.UploadRombel = exports.UploadSiswa = void 0;
 var node_1 = __importDefault(require("read-excel-file/node"));
 var apiResponse_1 = require("@/utils/apiResponse");
 var md5_1 = __importDefault(require("md5"));
 var prisma_1 = __importDefault(require("@/lib/prisma"));
+var func_1 = require("@/utils/func");
 var UploadSiswa = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var file, schema, _a, rows, errors, create;
     return __generator(this, function (_b) {
@@ -102,4 +103,81 @@ var UploadSiswa = function (req, res) { return __awaiter(void 0, void 0, void 0,
     });
 }); };
 exports.UploadSiswa = UploadSiswa;
+var UploadRombel = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var file, schema, _a, rows, errors, create;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                file = req.files.excel;
+                schema = {
+                    "ID Kelas": {
+                        prop: "kelas_id",
+                        type: String,
+                        required: true,
+                    },
+                    "ID Semester": {
+                        prop: "semester_id",
+                        type: String,
+                        required: true,
+                    },
+                    "ID Walas": {
+                        prop: "guru_id",
+                        type: String,
+                        required: true,
+                    },
+                };
+                return [4 /*yield*/, (0, node_1.default)(file.data, { schema: schema })];
+            case 1:
+                _a = _b.sent(), rows = _a.rows, errors = _a.errors;
+                if (errors.length > 0)
+                    return [2 /*return*/, res.status(400).json(__assign(__assign({}, (0, apiResponse_1.BadRequest)("File excel error")), { errors: errors }))];
+                return [4 /*yield*/, prisma_1.default.rombel.createMany({
+                        data: rows.map(function (row) {
+                            return __assign(__assign({}, row), { id: (0, func_1.randomString)(11) });
+                        }),
+                    })];
+            case 2:
+                create = _b.sent();
+                if (!create)
+                    return [2 /*return*/, res.status(500).json((0, apiResponse_1.InternalServerError)("Internal server error"))];
+                return [2 /*return*/, res.json((0, apiResponse_1.Success)("Success create " + rows.length + " data", { data: create }))];
+        }
+    });
+}); };
+exports.UploadRombel = UploadRombel;
+var UploadRombelSiswa = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var file, schema, _a, rows, errors, create;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                file = req.files.excel;
+                schema = {
+                    "ID Rombel": {
+                        prop: "rombel_id",
+                        type: String,
+                        required: true,
+                    },
+                    "ID Siswa": {
+                        prop: "siswa_id",
+                        type: String,
+                        required: true,
+                    },
+                };
+                return [4 /*yield*/, (0, node_1.default)(file.data, { schema: schema })];
+            case 1:
+                _a = _b.sent(), rows = _a.rows, errors = _a.errors;
+                if (errors.length > 0)
+                    return [2 /*return*/, res.status(400).json(__assign(__assign({}, (0, apiResponse_1.BadRequest)("File excel error")), { errors: errors }))];
+                return [4 /*yield*/, prisma_1.default.rombelSiswa.createMany({
+                        data: rows,
+                    })];
+            case 2:
+                create = _b.sent();
+                if (!create)
+                    return [2 /*return*/, res.status(500).json((0, apiResponse_1.InternalServerError)("Internal server error"))];
+                return [2 /*return*/, res.json((0, apiResponse_1.Success)("Success create " + rows.length + " data", { data: create }))];
+        }
+    });
+}); };
+exports.UploadRombelSiswa = UploadRombelSiswa;
 //# sourceMappingURL=bulk-upload.controller.js.map

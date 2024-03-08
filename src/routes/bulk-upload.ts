@@ -3,7 +3,10 @@ import { NextFunction, Router } from "express";
 import { auth } from "@/middleware/auth";
 import { Request, Response } from "express";
 import { BadRequest } from "@/utils/apiResponse";
-import { UploadSiswa } from "@/controllers/bulk-upload/bulk-upload.controller";
+import {
+  UploadRombel,
+  UploadSiswa,
+} from "@/controllers/bulk-upload/bulk-upload.controller";
 import { unlinkSync } from "fs";
 
 const router = Router();
@@ -20,6 +23,7 @@ router.use(
 );
 
 router.post("/siswa", UploadSiswa);
+router.post("/rombel", UploadRombel);
 
 function excelFile(req: Request, res: Response, next: NextFunction) {
   if (!req.files || Object.keys(req.files).length === 0) {
